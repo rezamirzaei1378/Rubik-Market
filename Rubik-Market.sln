@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{47958ED1-52AF-4AD9-9478-52F1EAF0B8BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{CCBF0A15-D74F-4839-8EFE-6F5343CD11EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.Data", "Infra.Data", "{E57D7AD8-9898-4FD9-AEF9-5278BFC80FF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.IOC", "Infra.IOC", "{941C1D95-44CF-4E27-917A-945F2C5A3560}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{CFC9AB51-6270-4A99-8A87-94153C9C084E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Application", "Rubik-Market.Application\Rubik-Market.Application.csproj", "{5ACE6184-D9AB-4A09-AFEF-97E3187178D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Domain", "Rubik-Market.Domain\Rubik-Market.Domain.csproj", "{36FE9E55-D888-4776-A6BD-196FFECA51CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Infra.Data", "Rubik-Market.Infra.Data\Rubik-Market.Infra.Data.csproj", "{2E9EC31E-BF02-4E8A-B251-2090F6032829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Infra.IOC", "Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj", "{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Web", "Rubik-Market.Web\Rubik-Market.Web.csproj", "{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5ACE6184-D9AB-4A09-AFEF-97E3187178D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ACE6184-D9AB-4A09-AFEF-97E3187178D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ACE6184-D9AB-4A09-AFEF-97E3187178D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ACE6184-D9AB-4A09-AFEF-97E3187178D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36FE9E55-D888-4776-A6BD-196FFECA51CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36FE9E55-D888-4776-A6BD-196FFECA51CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36FE9E55-D888-4776-A6BD-196FFECA51CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36FE9E55-D888-4776-A6BD-196FFECA51CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9EC31E-BF02-4E8A-B251-2090F6032829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9EC31E-BF02-4E8A-B251-2090F6032829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9EC31E-BF02-4E8A-B251-2090F6032829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9EC31E-BF02-4E8A-B251-2090F6032829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5ACE6184-D9AB-4A09-AFEF-97E3187178D8} = {CCBF0A15-D74F-4839-8EFE-6F5343CD11EF}
+		{36FE9E55-D888-4776-A6BD-196FFECA51CE} = {47958ED1-52AF-4AD9-9478-52F1EAF0B8BC}
+		{2E9EC31E-BF02-4E8A-B251-2090F6032829} = {E57D7AD8-9898-4FD9-AEF9-5278BFC80FF9}
+		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A} = {941C1D95-44CF-4E27-917A-945F2C5A3560}
+		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9} = {CFC9AB51-6270-4A99-8A87-94153C9C084E}
+	EndGlobalSection
+EndGlobal
