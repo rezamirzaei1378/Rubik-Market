@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj" />
+  </ItemGroup>
+
 </Project>

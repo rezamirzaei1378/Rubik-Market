@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rubik-Market.Domain\Rubik-Market.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

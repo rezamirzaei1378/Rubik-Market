@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Rubik_Market.Infra.IOC.Context;
+
 namespace Rubik_Market.Web
 {
     public class Program
@@ -8,6 +11,10 @@ namespace Rubik_Market.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<RubikMarketDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString"));
+            });
 
             var app = builder.Build();
 

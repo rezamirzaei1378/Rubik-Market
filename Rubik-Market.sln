@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35521.163 d17.12
+VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{47958ED1-52AF-4AD9-9478-52F1EAF0B8BC}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Infra.IOC", "Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj", "{39683C2A-400C-48BE-A8BC-1F87B46BCC7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rubik-Market.Web", "Rubik-Market.Web\Rubik-Market.Web.csproj", "{BFF9EF22-3E26-45AA-8000-F8C4740D27A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{82942A37-AFC8-4812-B164-DF5249426BC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,5 +61,6 @@ Global
 		{2E9EC31E-BF02-4E8A-B251-2090F6032829} = {E57D7AD8-9898-4FD9-AEF9-5278BFC80FF9}
 		{39683C2A-400C-48BE-A8BC-1F87B46BCC7A} = {941C1D95-44CF-4E27-917A-945F2C5A3560}
 		{BFF9EF22-3E26-45AA-8000-F8C4740D27A9} = {CFC9AB51-6270-4A99-8A87-94153C9C084E}
+		{82942A37-AFC8-4812-B164-DF5249426BC5} = {E57D7AD8-9898-4FD9-AEF9-5278BFC80FF9}
 	EndGlobalSection
 EndGlobal
