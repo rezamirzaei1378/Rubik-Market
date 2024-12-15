@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj" />
+    <ProjectReference Include="..\Rubik-Market.Infra.Data\Rubik-Market.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

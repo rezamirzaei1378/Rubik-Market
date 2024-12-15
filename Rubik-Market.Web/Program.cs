@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Rubik_Market.Infra.IOC;
 using Rubik_Market.Infra.IOC.Context;
 
 namespace Rubik_Market.Web
@@ -14,6 +16,14 @@ namespace Rubik_Market.Web
             builder.Services.AddDbContext<RubikMarketDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString"));
+            });
+            builder.Services.RegisterServices();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                options.LoginPath = "/Login";
+                options.LoginPath = "/Logout";
             });
 
             var app = builder.Build();
@@ -31,13 +41,14 @@ namespace Rubik_Market.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}}"
                 );
                 app.MapControllerRoute(
                     name: "default",
