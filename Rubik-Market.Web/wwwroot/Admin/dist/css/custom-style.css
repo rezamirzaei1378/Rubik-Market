@@ -271,3 +271,11 @@ ul {
 .datepicker-plot-area {
     font-family: 'Vazir', sans-serif;
 }
+
+/*----------------------------------My Stley --------------------------------*/
+
+.status-box{
+    display :flex;
+    justify-content:center;
+    padding:10px;
+}

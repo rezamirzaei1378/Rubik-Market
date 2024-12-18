@@ -1,0 +1,129 @@
+﻿@model UserPersonalInfoViewModel
+@{
+    ViewData["Title"] = "حساب کاربری";
+
+}
+<section class="inner-page" id="profile-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <!-- Side Panel -->
+                            <partial name="Partials/_UserPorfileSideBar" />
+                            <!-- /Side Panel -->
+                        </div>
+                        <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                            <!-- Profile Fields -->
+                            <div class="custom-container bg-light" id="profile-fields">
+                                <div class="row pt-2 px-3 ">
+                                    <div class="col-12"><h1>اطلاعات شخصی</h1></div>
+                                </div>
+                                <hr>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">نام و نام خانوادگی</div>
+                                                    <div class="value">@Model.FullName</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">کدملی</div>
+                                                    <div class="value">1234567890</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">شماره تلفن همراه</div>
+                                                    <div class="value">09351234567</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">تلفن ثابت</div>
+                                                    <div class="value">02112345678</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">پست الکترونیک</div>
+                                                    <div class="value">@Model.Email</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">تاریخ تولد</div>
+                                                    <div class="value">1372/01/01</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">شماره کارت جهت مرجوع وجه</div>
+                                                    <div class="value">1234-4321-1234-4321</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">تاریخ ساخت حساب کاربری</div>
+                                                    <div class="value">@Model.CreateDate.ToShamsi()</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 profile-field py-2">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title">وضعیت فعال بودن حساب کاربری</div>
+                                                    <div class="value"> @((Model.isActive) ? "فعال" : "غیر فعال")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Model.isAdmin)
+                                        {
+                                            <div class="col-12 col-sm-6 profile-field py-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="title">نقش کاربر</div>
+                                                        <div class="value"> @((Model.isAdmin) ? "ادمین" : "")</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Profile Fields -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section LoadFunction
+{
+<script>
+          document.addEventListener("DOMContentLoaded", function () {
+            ActivePage(@ViewData["Current-Page"]);
+        });
+</script>
+}

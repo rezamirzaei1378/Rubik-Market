@@ -62,7 +62,7 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     string userName = User.GetUserFullName();
-                                    <a href="javascript:void(0)">@userName</a><i> / </i>
+                                    <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="Profile">@userName</a><i> / </i>
                                     <a asp-controller="Account" asp-action="Logout">خروج</a>
                                 }
                                 else
@@ -461,6 +461,7 @@
     </section>
     <!-- Copyright -->
     <!-- Scripts -->
+    
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/plugins/fontawesome/js/all.min.js"></script>
@@ -469,6 +470,7 @@
     <script src="assets/js/nouislider.min.js"></script>
     <script src="assets/js/pagination.js"></script>
     <partial name="_ValidationScriptsPartial"/>
+    @RenderSection("LoadFunction", false)
     <script src="assets/js/scripts.js"></script>
     <!-- /Scripts -->
 </body>

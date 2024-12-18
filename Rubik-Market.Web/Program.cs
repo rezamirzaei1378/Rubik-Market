@@ -16,6 +16,7 @@ namespace Rubik_Market.Web
             builder.Services.AddDbContext<RubikMarketDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             builder.Services.RegisterServices();
 
@@ -48,7 +49,7 @@ namespace Rubik_Market.Web
             {
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}}"
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
                 app.MapControllerRoute(
                     name: "default",

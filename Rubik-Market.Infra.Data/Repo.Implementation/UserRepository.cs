@@ -19,7 +19,7 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 
         public User GetUserById(int id)
         {
-            return context.Users.FirstOrDefault(u => u.ID == id);
+            return context.Users.FirstOrDefault(u=>u.ID==id);
         }
 
         public async Task AddUserAsync(User user)
@@ -40,7 +40,7 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 
         public void DeleteUser(User user)
         {
-            context.Users.Remove(user);
+            UpdateUser(user);
         }
 
         public async Task SaveAsync()
@@ -48,7 +48,7 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
             await context.SaveChangesAsync();
         }
 
-        public bool IsUserExistAsync(string email)
+        public bool IsUserExistByEmailAsync(string email)
         {
             return context.Users.Any(u => u.Email == email);
         }
@@ -61,6 +61,11 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
         public User GetUserByEmail(string email)
         {
             return context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public bool IsUserExistByIdAsync(int id)
+        {
+            return context.Users.Any(u => u.ID == id);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Rubik_Market.Infra.IOC
             #region Services
 
             services.AddScoped<IUserServices,UserService> ();
+            services.AddScoped<IUserProfileServices,UserProfileServices> ();
             services.AddScoped<IEmailSender,EmailSender> ();
 
             #endregion

@@ -11,7 +11,8 @@ public interface IUserRepository
     public void DeleteUser(int id);
     public void DeleteUser(User user);
     Task SaveAsync();
-    public bool IsUserExistAsync(string email);
+    public bool IsUserExistByEmailAsync(string email);
+    public bool IsUserExistByIdAsync(int id);
     User GetUserByConfirmCode(string confirmCode);
     public User GetUserByEmail (string email);
 

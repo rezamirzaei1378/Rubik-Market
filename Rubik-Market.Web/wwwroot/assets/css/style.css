@@ -1470,7 +1470,7 @@ section.inner-page#profile-page #profile-fields .profile-field a svg:hover {
     border-top: 1px solid lightgray;
   }
 }
-section.inner-page#profile-page #profile-fields .profile-field:nth-child(7), section.inner-page#profile-page #profile-fields .profile-field:nth-child(8) {
+section.inner-page#profile-page #profile-fields .profile-field:nth-child(9), section.inner-page#profile-page #profile-fields .profile-field:nth-child(10) {
   border-bottom: none;
 }
 section.inner-page#profile-page #profile-fields .profile-field .title {

@@ -32,7 +32,7 @@ namespace Rubik_Market.Application.Services.Implementation
         {
             try
             {
-                if (_userRepository.IsUserExistAsync(model.UserEmail.Trim().ToLower()))
+                if (_userRepository.IsUserExistByEmailAsync(model.UserEmail.Trim().ToLower()))
                 {
                     return ResultRegister.EmailInvalid;
                 }

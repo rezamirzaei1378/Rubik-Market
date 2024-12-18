@@ -160,7 +160,7 @@ namespace Rubik_Market.Web.Controllers
 
         #endregion
 
-        #region Logot
+        #region Logout
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
