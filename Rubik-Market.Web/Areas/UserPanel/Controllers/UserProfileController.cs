@@ -29,11 +29,13 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         {
             int userId = User.GetUserId();
             if (userId == null)
-            {
                 return NotFound();
                 //TODO Error404
-            }
             var model = _userProfileServices.GetUserPersonalInfo(userId);
+            if (_userProfileServices.IsUserProfileFill(userId))
+            {
+                ViewData["AddOrEdit"] = "Edit";
+            }
             ViewData["Current-Page"] = "Profile";
 
             return View(model);
@@ -74,6 +76,107 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
                     break;
             }
             return View(model);
+        }
+        #endregion
+
+        #region AddUserPersonalInfo
+
+        [HttpGet("AddUserPersonalInfo")]
+        public IActionResult AddUserPersonalInfo()
+        {
+            @ViewData["Current-Page"] = "UserPersonalInfo";
+            return View();
+        }
+
+        [HttpPost("AddUserPersonalInfo")]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddUserPersonalInfo(AddUserPersonalInfoViewModel model)
+        {
+
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+
+            int userId = User.GetUserId();
+            model.UserId =userId;
+
+            var result = _userProfileServices.AddUserPersonalInfo(model);
+            switch (result)
+            {
+                case AddUserPersonalInfoResult.Success:
+                    TempData["Message"] = "ProfileAddSuccess";
+                    return RedirectToAction(nameof(Profile));
+                case AddUserPersonalInfoResult.UserNotFound:
+                    ModelState.AddModelError(nameof(AddUserPersonalInfoViewModel.NationalCode),"کاربر یاقت نشد");
+                    return View(model);
+                case AddUserPersonalInfoResult.Failed:
+                    TempData["Massage"] = "FailedProfile";
+                    return View(model);
+            }
+            
+            _userProfileServices.AddUserPersonalInfo(model);
+            ViewData["Current-Page"] = "UserPersonalInfo";
+            return View();
+        }
+
+        #endregion
+
+        #region EditUserPersonalInfo
+
+        [HttpGet("EditUserPersonalInfo")]
+        
+        public IActionResult EditUserPersonalInfo(int userId)
+        {
+            if (userId ==null)
+            {
+                return NotFound();
+            }
+            var userProfile = _userProfileServices.GetUserPersonalInfoToEdit(userId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            ViewData["AddOrEdit"] = "Edit";
+            ViewData["Current-Page"] = "UserPersonalInfo";
+            return View(userProfile);
+        }
+
+        [HttpPost("EditUserPersonalInfo")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUserPersonalInfo(EditUserPersonalInfoViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+            int userId = User.GetUserId();
+            model.UserId = userId;
+
+            var result = await _userProfileServices.EditUserPersonalInfo(model);
+            switch (result)
+            {
+                case EditUserPersonalInfoResult.Success:
+                    TempData["Message"] = "ProfileEditSuccess";
+                    return RedirectToAction(nameof(Profile));
+                case EditUserPersonalInfoResult.UserNotFound:
+                    ModelState.AddModelError(nameof(AddUserPersonalInfoViewModel.NationalCode), "کاربر یاقت نشد");
+                    return View(model);
+                case EditUserPersonalInfoResult.Failed:
+                    TempData["Massage"] = "FailedEditProfile";
+                    return View(model);
+            }
+
+            ViewData["Current-Page"] = "UserPersonalInfo";
+            return View();
         }
         #endregion
 

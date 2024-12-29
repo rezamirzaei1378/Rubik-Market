@@ -35,7 +35,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">کدملی</div>
-                                                    <div class="value">1234567890</div>
+                                                    <div class="value">@Model.NationalCode</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,7 +43,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">شماره تلفن همراه</div>
-                                                    <div class="value">09351234567</div>
+                                                    <div class="value">@Model.CellPhoneNumber</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,7 +51,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">تلفن ثابت</div>
-                                                    <div class="value">02112345678</div>
+                                                    <div class="value">@Model.HousePhoneNumber</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,7 +67,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">تاریخ تولد</div>
-                                                    <div class="value">1372/01/01</div>
+                                                    <div class="value">@Model.BirthDate</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">شماره کارت جهت مرجوع وجه</div>
-                                                    <div class="value">1234-4321-1234-4321</div>
+                                                    <div class="value">@Model.CardNumberForRejectMoney</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,7 +83,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="title">تاریخ ساخت حساب کاربری</div>
-                                                    <div class="value">@Model.CreateDate.ToShamsi()</div>
+                                                    <div class="value">@Model.UserCreateDate.ToShamsi()</div>
                                                 </div>
                                             </div>
                                         </div>

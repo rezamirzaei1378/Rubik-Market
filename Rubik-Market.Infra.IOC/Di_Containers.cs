@@ -27,6 +27,7 @@ namespace Rubik_Market.Infra.IOC
             #region Repositories
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserPersonalInfoRepository, UserPersonalInfoRepository>();
 
             #endregion
         }

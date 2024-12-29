@@ -42,10 +42,12 @@ namespace Rubik_Market.Web.Controllers
             {
                 case ResultRegister.Success:
                     {
-                        ModelState.AddModelError("UserEmail", "ثبت نام موفق بود");
+                        //ModelState.AddModelError("UserEmail", "ثبت نام موفق بود");
+                        TempData["Massage"] = "RegisterSuccess";
                         return RedirectToAction(nameof(ActiveAccount));
                     }
                 case ResultRegister.Failed:
+                    TempData["Massage"] = "Failed";
                     return View(model);
                 case ResultRegister.EmailInvalid:
                     {
@@ -82,6 +84,7 @@ namespace Rubik_Market.Web.Controllers
             switch (result)
             {
                 case ResultActiveAccount.Success:
+                    TempData["Massage"] = "ActiveSuccess";
                     return RedirectToAction(nameof(Login));
                 case ResultActiveAccount.Failed:
                     ModelState.AddModelError(nameof(ActiveAccountViewModel.ConfirmCode), "خطای  سرور ");
@@ -125,6 +128,12 @@ namespace Rubik_Market.Web.Controllers
                         return View(model);
                     }
 
+                    if (user.isActive == false)
+                    {
+                        ModelState.AddModelError(nameof(LoginViewModel.UserEmail), " کاربر فعال نمی باشد");
+                        return View(model);
+                    }
+
                     #region Claim
 
                     List<Claim> claims = new List<Claim>()
@@ -143,6 +152,8 @@ namespace Rubik_Market.Web.Controllers
                         IsPersistent = true,
                     };
                     #endregion
+
+                    TempData["Massage"] = "LoginSuccess";
 
                     #region Login
 

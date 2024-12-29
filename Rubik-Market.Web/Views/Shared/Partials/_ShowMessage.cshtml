@@ -1,0 +1,89 @@
+﻿@if (TempData["Massage"] != null)
+{
+    string message = (string)TempData["Massage"];
+    switch (message)
+    {
+        case "RegisterSuccess":
+        {
+            <script>
+                Swal.fire({
+                    title:'ثبت نام با موفقیت انجام شد.',
+                    icon:'success'
+                })
+            </script>
+            break;
+        }
+        case "Failed":
+        {
+            <script>
+                Swal.fire({
+                        title:'ثبت نام انجام نشد.',
+                    icon:'error'
+                })
+            </script>
+            break;
+        }
+        case "ActiveSuccess":
+        {
+            <script>
+                Swal.fire({
+                        title:'حساب شما با موفقت فعال شد.',
+                    icon:'success'
+                })
+            </script>
+            break;
+            }
+        case "LoginSuccess":
+        {
+            <script>
+                Swal.fire({
+                        title:'با موفقیت وارد حساب شدین.',
+                    icon:'success',
+                    timer:2000
+                })
+            </script>
+            break;
+        }
+        case "ProfileAddSuccess":
+        {
+            <script>
+                Swal.fire({
+                        title:'اطلاعات با موفقیت ثبت شد.',
+                    icon:'success',
+                    timer:3000
+                })
+            </script>
+            break;
+        }
+        case "FailedProfile":
+        {
+            <script>
+                Swal.fire({
+                        title:'خطا رخ داده است.',
+                        icon:'error',
+                })
+            </script>
+            break;
+        }
+        case "ProfileEditSuccess":
+        {
+            <script>
+                Swal.fire({
+                        title:'پروفایل با موفقیت تغییر کرد.',
+                    icon:'success',
+                })
+            </script>
+            break;
+        }
+        case "FailedEditProfile":
+        {
+            <script>
+                Swal.fire({
+                        title:'خطا رخ داده است.',
+                        icon:'error',
+                })
+            </script>
+            break;
+        }
+    }
+}

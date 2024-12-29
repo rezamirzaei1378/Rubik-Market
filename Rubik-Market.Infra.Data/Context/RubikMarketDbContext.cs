@@ -16,5 +16,6 @@ namespace Rubik_Market.Infra.IOC.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserProfileInfo> UserProfileInfo { get; set; }
     }
 }

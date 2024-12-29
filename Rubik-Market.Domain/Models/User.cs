@@ -18,5 +18,12 @@ namespace Rubik_Market.Domain.Models
         public bool isAdmin { get; set; } = false;
         public string? ConfirmCode { get; set; }
         public bool isActive { get; set; } = false;
+
+        #region Relations
+
+         public List<UserProfileInfo> UserProfileInfo { get; set; }
+
+        #endregion
+       
     }
 }

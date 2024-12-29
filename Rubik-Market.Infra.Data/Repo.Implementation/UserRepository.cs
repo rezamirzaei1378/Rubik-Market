@@ -10,6 +10,9 @@ using Rubik_Market.Infra.IOC.Context;
 
 namespace Rubik_Market.Infra.Data.Repo.Implementation
 {
+    #region UserRepository
+
+
     public class UserRepository(RubikMarketDbContext context) : IUserRepository
     {
         public async Task<List<User>> GetAllUsersAsync()
@@ -19,7 +22,7 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 
         public User GetUserById(int id)
         {
-            return context.Users.FirstOrDefault(u=>u.ID==id);
+            return context.Users.FirstOrDefault(u => u.ID == id);
         }
 
         public async Task AddUserAsync(User user)
@@ -29,7 +32,7 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 
         public void UpdateUser(User user)
         {
-             context.Users.Update(user);
+            context.Users.Update(user);
         }
 
         public void DeleteUser(int id)
@@ -68,4 +71,54 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
             return context.Users.Any(u => u.ID == id);
         }
     }
+    #endregion
+
+    #region UserPersonalInfoRepository
+
+    public class UserPersonalInfoRepository(RubikMarketDbContext context): IUserPersonalInfoRepository
+    {
+        public async Task<List<UserProfileInfo>> GetAllUserPersonalInfo()
+        {
+            return await context.UserProfileInfo.ToListAsync();
+        }
+
+        public UserProfileInfo GetUserPersonalInfo(int id)
+        {
+            return context.UserProfileInfo.FirstOrDefault(u=>u.UserId == id);
+        }
+
+        public async Task AddUserPersonalInfo(UserProfileInfo userPersonalInfo)
+        {
+            await context.UserProfileInfo.AddAsync(userPersonalInfo);
+        }
+
+        public void UpdateUserPersonalInfo(UserProfileInfo userProfileInfo)
+        {
+            context.UserProfileInfo.Update(userProfileInfo);
+        }
+
+        public void DeleteUserPersonalInfo(int id)
+        {
+            var userPersonalInfo = GetUserPersonalInfo(id);
+            DeleteUserPersonalInfo(userPersonalInfo);
+        }
+
+        public void DeleteUserPersonalInfo(UserProfileInfo userProfileInfo)
+        {
+            UpdateUserPersonalInfo(userProfileInfo);
+        }
+
+        public async Task SaveAsync()
+        {
+            await context.SaveChangesAsync();
+        }
+
+        public bool IsUserProfileExist(int id)
+        {
+            return context.UserProfileInfo.Any(u => u.UserId == id);
+        }
+    }
+
+    #endregion
+
 }

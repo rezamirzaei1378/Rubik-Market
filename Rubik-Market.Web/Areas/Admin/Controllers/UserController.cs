@@ -19,12 +19,16 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         #region Costructor
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly IUserPersonalInfoRepository _userPersonalInfoRepository;
+
+        public UserController(IUserRepository userRepository,IUserPersonalInfoRepository userPersonalInfoRepository)
         {
             _userRepository = userRepository;
+            _userPersonalInfoRepository = userPersonalInfoRepository;
         }
 
         #endregion
+
         #region UserList
 
         public async Task<IActionResult> Index()
@@ -178,5 +182,108 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         #endregion
 
+        #region User Detailes
+
+        public IActionResult UserDetail(int id)
+        {
+            var user = _userRepository.GetUserById(id);
+            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
+            if (user==null)
+            {
+                NotFound();
+            }
+
+            UserDetailViewModel model = new UserDetailViewModel
+            {
+                UserId = user.ID,
+                Email = user.Email,
+                isDeleted = user.isDelete,
+                UserCreateDate = user.CreateDate
+            };
+            if (userProfile == null)
+            {
+                model.CardNumberForRejectMoney = " ";
+                model.NationalCode = " ";
+                model.BirthDate = " ";
+                model.CellPhoneNumber = " ";
+                model.HousePhoneNumber = " ";
+            }
+            else
+            {
+                model.NationalCode = userProfile.NationalCode ?? " ";
+                model.HousePhoneNumber = userProfile.HousePhoneNumber ?? " ";
+                model.BirthDate = (userProfile.BirthDate==null) ? " " : userProfile.BirthDate.ToShamsiStr();
+                model.CardNumberForRejectMoney = (userProfile.CardNumberForRejectMoney==null)? " ":userProfile.CardNumberForRejectMoney.ChangeCardShowFormat();
+                model.CellPhoneNumber = userProfile.CellPhoneNumber ?? " ";
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region User Detailes Add
+
+        [HttpGet]
+        public IActionResult UserDetailAdd(int id)
+        {
+            ViewData["UserId"] = id;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserDetailAdd(AddUserDetailViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+
+            try
+            {
+                UserProfileInfo profile = new UserProfileInfo
+                {
+                    CreateDate = DateTime.Now,
+                    isDelete = false,
+                    UserId = model.UserId,
+                    NationalCode = model.NationalCode,
+                    CellPhoneNumber = model.CellPhoneNumber,
+                    HousePhoneNumber = model.HousePhoneNumber,
+                    BirthDate = null,
+                    CardNumberForRejectMoney = model.CardNumberForRejectMoney,
+                };
+                _userPersonalInfoRepository.AddUserPersonalInfo(profile);
+                await _userPersonalInfoRepository.SaveAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View(model);
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        #region User Detaile Edit
+
+        public IActionResult UserDetailEdit()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region User Detaile Delete
+
+        public async Task<IActionResult> UserDetailDelete()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

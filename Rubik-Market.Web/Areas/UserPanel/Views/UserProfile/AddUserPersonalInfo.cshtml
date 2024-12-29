@@ -1,0 +1,84 @@
+﻿@model AddUserPersonalInfoViewModel
+@{
+    ViewData["Title"] = "اطلاعات شخصی کاربر";
+
+}
+<section class="inner-page" id="profile-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <!-- Side Panel -->
+                            <partial name="Partials/_UserPorfileSideBar" />
+                            <!-- /Side Panel -->
+                        </div>
+                        <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                            <form asp-area="UserPanel" asp-controller="UserProfile" asp-action="AddUserPersonalInfo" method="post" class="align-self-center">
+                                <div class="form-group">
+                                    <label asp-for="NationalCode">کد ملی :</label>
+                                    <input asp-for="NationalCode" type="text" class="form-control">
+                                    <span asp-validation-for="NationalCode"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CellPhoneNumber">شماره همراه:</label>
+                                    <input asp-for="CellPhoneNumber" type="text" class="form-control">
+                                    <span asp-validation-for="CellPhoneNumber"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="HousePhoneNumber">شماره ثابت :</label>
+                                    <input asp-for="HousePhoneNumber" type="text" class="form-control">
+                                    <span asp-validation-for="HousePhoneNumber"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CardNumberForRejectMoney"> شماره کارت جهت مرجوعی وجه:</label>
+                                    <input asp-for="CardNumberForRejectMoney" type="text" class="form-control">
+                                    <span asp-validation-for="CardNumberForRejectMoney"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BirthDate">تاریخ تولد:</label>
+                                    <input data-jdp data-jdp-miladi-input="miladi_date" type="text" class="form-control">
+                                    <input type="hidden" asp-for="BirthDate" id="miladi_date" />
+                                    <span asp-validation-for="BirthDate"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="تکمیل اطلاعت شخصی کاربر" class="btn btn-success mt-2">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section PageCss
+{
+    <link type="text/css" rel="stylesheet" href="assets/css/jalalidatepicker.min.css" />
+}
+
+@section LoadFunction
+{
+    <script type="text/javascript" src="assets/js/jalalidatepicker.min.js"></script>
+    <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            ActivePage(@ViewData["Current-Page"]);
+        });
+        jalaliDatepicker.startWatch({});
+        document.querySelector("[data-jdp-miladi-input]").addEventListener("jdp:change", function (e) {
+            var miladiInput = document.getElementById(this.getAttribute("data-jdp-miladi-input"));
+            if (!this.value) {
+                miladiInput.value = "";
+                return;
+            }
+            var date = this.value.split("/");
+            miladiInput.value = jalali_to_gregorian(date[0], date[1], date[2]).join("-")
+            console.log(miladiInput.value);
+
+
+        });
+    </script>
+    <script type="text/javascript" src="assets/js/custom.js"></script>
+}

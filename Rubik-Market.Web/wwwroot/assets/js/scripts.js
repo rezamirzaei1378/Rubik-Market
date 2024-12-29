@@ -14,6 +14,7 @@ function ActivePage(PageName) {
     }
 }
 
+
 $(function () {
     /* encode4365gbf265g43d Range Slider */
     if ($('#steps-slider').length) {
@@ -201,3 +202,4 @@ $(function () {
 
     AOS.init();
 });
+

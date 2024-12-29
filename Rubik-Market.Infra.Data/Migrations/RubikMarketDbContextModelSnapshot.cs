@@ -61,6 +61,61 @@ namespace Rubik_Market.Infra.Data.Migrations
 
                     b.ToTable("Users");
                 });
+
+            modelBuilder.Entity("Rubik_Market.Domain.Models.UserProfileInfo", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("BirthDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardNumberForRejectMoney")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CellPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HousePhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isDelete")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProfileInfo");
+                });
+
+            modelBuilder.Entity("Rubik_Market.Domain.Models.UserProfileInfo", b =>
+                {
+                    b.HasOne("Rubik_Market.Domain.Models.User", "User")
+                        .WithMany("UserProfileInfo")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Rubik_Market.Domain.Models.User", b =>
+                {
+                    b.Navigation("UserProfileInfo");
+                });
 #pragma warning restore 612, 618
         }
     }

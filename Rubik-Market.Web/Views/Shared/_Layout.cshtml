@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/droopmenu.css">
     <link rel="stylesheet" href="assets/css/highlight.css">
     <link rel="stylesheet" href="assets/css/nouislider.min.css">
+    @RenderSection("PageCss",false)
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- /CSS Styles -->
 </head>
@@ -469,7 +470,9 @@
     <script src="assets/js/droopmenu.js"></script>
     <script src="assets/js/nouislider.min.js"></script>
     <script src="assets/js/pagination.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <partial name="_ValidationScriptsPartial"/>
+    <partial name="Partials/_ShowMessage"/>
     @RenderSection("LoadFunction", false)
     <script src="assets/js/scripts.js"></script>
     <!-- /Scripts -->

@@ -15,5 +15,18 @@ public interface IUserRepository
     public bool IsUserExistByIdAsync(int id);
     User GetUserByConfirmCode(string confirmCode);
     public User GetUserByEmail (string email);
+    
 
+}
+
+public interface IUserPersonalInfoRepository
+{
+    Task<List<UserProfileInfo>> GetAllUserPersonalInfo();
+    UserProfileInfo GetUserPersonalInfo(int id);
+    Task AddUserPersonalInfo(UserProfileInfo userPersonalInfo);
+    bool IsUserProfileExist(int id);
+    public void UpdateUserPersonalInfo(UserProfileInfo userProfileInfo);
+    public void DeleteUserPersonalInfo(int id);
+    public void DeleteUserPersonalInfo(UserProfileInfo userProfileInfo);
+    Task SaveAsync();
 }

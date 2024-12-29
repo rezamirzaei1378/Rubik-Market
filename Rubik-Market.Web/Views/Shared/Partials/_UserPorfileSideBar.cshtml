@@ -31,11 +31,22 @@
                         </a>
                     </li>
                     <li>
-                        <a href="favorites.html">
-                            <div>
-                                <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/favorites.webp" class="pl-2"></div> علاقه مندی ها
-                            </div>
-                        </a>
+                        @if (ViewData["AddOrEdit"] == "Edit")
+                        {
+                            <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="EditUserPersonalInfo" custom-data="ActiveLink" id="UserPersonalInfo" asp-route-userId="@User.GetUserId()">
+                                <div>
+                                    <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/profile.webp" class="pl-2"></div> ویرایش کردن اطلاعات شخصی کاربر
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="AddUserPersonalInfo" custom-data="ActiveLink" id="UserPersonalInfo">
+                                <div>
+                                    <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/profile.webp" class="pl-2"></div> اضافه کردن اطلاعات شخصی کاربر
+                                </div>
+                            </a>
+                        }
                     </li>
                     <li>
                         <a href="addresses.html">

@@ -11,7 +11,10 @@ namespace Rubik_Market.Application.Services.Contracts
     public interface IUserProfileServices
     {
         public UserPersonalInfoViewModel GetUserPersonalInfo(int id);
-
         ResultChangePassword ChangePassword(ChangePasswordViewModel model);
+        AddUserPersonalInfoResult AddUserPersonalInfo(AddUserPersonalInfoViewModel model);
+        public bool IsUserProfileFill (int id);
+        public EditUserPersonalInfoViewModel GetUserPersonalInfoToEdit(int id);
+        Task<EditUserPersonalInfoResult> EditUserPersonalInfo(EditUserPersonalInfoViewModel model);
     }
 }
