@@ -9,7 +9,7 @@
             <div class="col-md-3">
 
                 <!-- Profile Image -->
-                @await Component.InvokeAsync("UserProfileSideBar", new { id = userId })
+                @await Component.InvokeAsync("UserProfileSideBar", new { id =userId })
                 <!-- /.card -->
 
             </div>
@@ -18,9 +18,8 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="UserDetail" data-toggle="tab">پروفایل</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="UserDetailAdd" data-toggle="tab">اضافه کردن پروفایل کاربر</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">تایم لاین</a></li>
+                            <li class="nav-item"><a class="nav-link" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetail" asp-route-id="@userId">پروفایل</a></li>
+                            <li class="nav-item"><a class="nav-link active show" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetailAdd" asp-route-id="@userId">اضافه کردن پروفایل کاربر</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">

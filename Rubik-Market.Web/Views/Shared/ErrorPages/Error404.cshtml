@@ -1,4 +1,8 @@
-﻿<section class="inner-page" id="contact-page">
+﻿@section PageCss{
+    <link rel="stylesheet" href="assets/css/error-404.css">
+}
+
+<section class="inner-page" id="contact-page">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -18,13 +22,13 @@
                                     </div>
                                     <h2>صفحه مورد نظر یافت نشد!</h2>
                                     <p>احتمالا صفحه مورد نظر شما حذف یا تغییر نام داده شده است.</p>
-                                    <a asp-controller="Home" asp-action="Index">بازگشت به صفحه اصلی</a>
-                                    <div class="notfound-social">
-                                        <a href="#"><img src="assets/images/social/twitter.png" alt="توئیتر" width="18px"></a>
-                                        <a href="#"><img src="assets/images/social/insta.png" alt="اینستاگرام" width="18px"></a>
-                                        <a href="#"><img src="assets/images/social/linkedin.png" alt="لینکدین" width="18px"></a>
-                                        <a href="#"><img src="assets/images/social/facebook.png" alt="فیس بوک" width="18px"></a>
-                                    </div>
+                                    <a href="/">بازگشت به صفحه اصلی</a>
+                                    @* <div class="notfound-social"> *@
+                                    @*     <a href="#"><img src="assets/images/social/twitter.png" alt="توئیتر" width="18px"></a> *@
+                                    @*     <a href="#"><img src="assets/images/social/insta.png" alt="اینستاگرام" width="18px"></a> *@
+                                    @*     <a href="#"><img src="assets/images/social/linkedin.png" alt="لینکدین" width="18px"></a> *@
+                                    @*     <a href="#"><img src="assets/images/social/facebook.png" alt="فیس بوک" width="18px"></a> *@
+                                    @* </div> *@
                                 </div>
                             </div>
                         </div>

@@ -33,8 +33,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<User> users = new List<User>();
-            users = await _userRepository.GetAllUsersAsync();
+            var users = await _userRepository.GetAllUsersAsync();
             return View(users);
         }
 
@@ -165,7 +164,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         #endregion
 
-        #region DeleteUser
+        #region Delete User
 
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -200,7 +199,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
                 isDeleted = user.isDelete,
                 UserCreateDate = user.CreateDate
             };
-            if (userProfile == null)
+            if (userProfile == null||userProfile.isDelete == true)
             {
                 model.CardNumberForRejectMoney = " ";
                 model.NationalCode = " ";
@@ -210,6 +209,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
             }
             else
             {
+                ViewData["EditUserProfiel"]="True";
                 model.NationalCode = userProfile.NationalCode ?? " ";
                 model.HousePhoneNumber = userProfile.HousePhoneNumber ?? " ";
                 model.BirthDate = (userProfile.BirthDate==null) ? " " : userProfile.BirthDate.ToShamsiStr();
@@ -255,7 +255,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
                     BirthDate = null,
                     CardNumberForRejectMoney = model.CardNumberForRejectMoney,
                 };
-                _userPersonalInfoRepository.AddUserPersonalInfo(profile);
+                await _userPersonalInfoRepository.AddUserPersonalInfo(profile);
                 await _userPersonalInfoRepository.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -270,18 +270,69 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         #region User Detaile Edit
 
-        public IActionResult UserDetailEdit()
+        [HttpGet]
+        public IActionResult UserDetailEdit(int id)
         {
-            return View();
+            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
+            if (userProfile == null) {
+                return NotFound();
+            }
+            EditUserDetailViewModel model = new EditUserDetailViewModel()
+            {
+                UserId = id,
+                NationalCode = userProfile.NationalCode,
+                CellPhoneNumber = userProfile.CellPhoneNumber,
+                HousePhoneNumber = userProfile.HousePhoneNumber,
+                CardNumberForRejectMoney = userProfile.CardNumberForRejectMoney,
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult UserDetailEdit(EditUserDetailViewModel model)
+        {
+            #region Validation
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            #endregion
+            try
+            {
+            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(model.UserId);
+
+                userProfile.UserId = model.UserId;
+                userProfile.NationalCode = model.NationalCode;
+                userProfile.CellPhoneNumber = model.CellPhoneNumber;
+                userProfile.HousePhoneNumber = model.HousePhoneNumber;
+                userProfile.CardNumberForRejectMoney = model.CardNumberForRejectMoney;
+
+                _userPersonalInfoRepository.UpdateUserPersonalInfo(userProfile);
+                _userPersonalInfoRepository.SaveAsync();
+                return RedirectToAction("UserDetail", "User",model.UserId);
+            }
+            catch
+            {
+
+            return View(model);
+            }
         }
 
         #endregion
 
         #region User Detaile Delete
 
-        public async Task<IActionResult> UserDetailDelete()
+        public async Task<IActionResult> UserDetailDelete(int id)
         {
-            return View();
+            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
+            if (userProfile == null)
+            {
+                ViewData["Message"] = "UserNotFound";
+                return View();
+            }
+            userProfile.isDelete = true;
+            _userPersonalInfoRepository.UpdateUserPersonalInfo(userProfile);
+            await _userPersonalInfoRepository.SaveAsync();
+            return RedirectToAction("Index","User");
         }
 
         #endregion

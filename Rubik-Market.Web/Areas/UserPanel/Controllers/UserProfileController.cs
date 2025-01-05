@@ -28,10 +28,10 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         public IActionResult Profile()
         {
             int userId = User.GetUserId();
-            if (userId == null)
-                return NotFound();
-                //TODO Error404
             var model = _userProfileServices.GetUserPersonalInfo(userId);
+            if (model == null)
+                return View("ErrorPages/Error404");
+
             if (_userProfileServices.IsUserProfileFill(userId))
             {
                 ViewData["AddOrEdit"] = "Edit";
@@ -132,7 +132,7 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         
         public IActionResult EditUserPersonalInfo(int userId)
         {
-            if (userId ==null)
+            if (userId == null)
             {
                 return NotFound();
             }

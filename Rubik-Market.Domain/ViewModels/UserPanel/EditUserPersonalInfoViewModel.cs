@@ -19,8 +19,8 @@ public class EditUserPersonalInfoViewModel
     [MaxLength(11, ErrorMessage = "تعداد ارقام شماره همراه باید 11 کارکتر باشد")]
     [MinLength(11, ErrorMessage = "تعداد ارقام شماره همراه باید 11 کارکتر باشد")]
     public string? CellPhoneNumber { get; set; }
-    [MaxLength(11, ErrorMessage = "تعداد ارقام شماره ثابت باید 10 کارکتر باشد")]
-    [MinLength(11, ErrorMessage = "تعداد ارقام شماره ثابت باید 10 کارکتر باشد")]
+    [MaxLength(11, ErrorMessage = "تعداد ارقام شماره ثابت باید 11 کارکتر باشد")]
+    [MinLength(11, ErrorMessage = "تعداد ارقام شماره ثابت باید 11 کارکتر باشد")]
     public string? HousePhoneNumber { get; set; }
     public string? GregorianBirthDate { get; set; }
     public string? BirthDate { get; set; }

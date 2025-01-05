@@ -21,7 +21,6 @@ public interface IUserRepository
 
 public interface IUserPersonalInfoRepository
 {
-    Task<List<UserProfileInfo>> GetAllUserPersonalInfo();
     UserProfileInfo GetUserPersonalInfo(int id);
     Task AddUserPersonalInfo(UserProfileInfo userPersonalInfo);
     bool IsUserProfileExist(int id);

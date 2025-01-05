@@ -14,8 +14,9 @@
             </li>
         </ul>
 
-        <a asp-area="Admin" asp-controller="User" asp-action="UserDetailDelete" class="btn btn-danger btn-block"><b>حذف پروفایل</b></a>
+        <button class="btn btn-danger btn-block" onclick="DeleteProf('@Model.FullName','@Model.UserId')"><b>حذف پروفایل</b></button>
         <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" class="btn btn-danger btn-block"><b>حذف کاربر</b></a>
     </div>
     <!-- /.card-body -->
 </div>
+

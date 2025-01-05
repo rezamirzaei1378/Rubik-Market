@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="BirthDate">تاریخ تولد:</label>
-                                    <input data-jdp data-jdp-miladi-input="miladi_date" type="text" class="form-control" asp-for="BirthDate">
+                                    <input data-jdp data-jdp-miladi-input="miladi_date" type="text" class="form-control" asp-for="BirthDate" autocomplete="off">
                                     <input type="hidden" asp-for="GregorianBirthDate" id="miladi_date" />
                                     <span asp-validation-for="BirthDate"></span>
                                 </div>

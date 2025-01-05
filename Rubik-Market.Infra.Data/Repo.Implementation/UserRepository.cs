@@ -77,14 +77,10 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 
     public class UserPersonalInfoRepository(RubikMarketDbContext context): IUserPersonalInfoRepository
     {
-        public async Task<List<UserProfileInfo>> GetAllUserPersonalInfo()
-        {
-            return await context.UserProfileInfo.ToListAsync();
-        }
 
         public UserProfileInfo GetUserPersonalInfo(int id)
         {
-            return context.UserProfileInfo.FirstOrDefault(u=>u.UserId == id);
+            return context.UserProfileInfo.FirstOrDefault(u=>u.UserId == id && u.isDelete == false);
         }
 
         public async Task AddUserPersonalInfo(UserProfileInfo userPersonalInfo)

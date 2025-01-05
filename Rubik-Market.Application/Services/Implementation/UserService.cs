@@ -77,9 +77,6 @@ namespace Rubik_Market.Application.Services.Implementation
             {
                 return ResultActiveAccount.Failed;
             }
-
-
-
         }
 
         public ResultLogin LoginUser(LoginViewModel model)
