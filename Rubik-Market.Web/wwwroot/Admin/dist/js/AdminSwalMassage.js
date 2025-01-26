@@ -1,5 +1,4 @@
-﻿
-function DeleteProf(name, userId) {
+﻿function DeleteProf(name, userId) {
     Swal.fire({
         title: ` آیا از حذف پروفایل ${name} مطمعن هستید؟`,
         icon: 'question',

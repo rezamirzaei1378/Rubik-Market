@@ -1,4 +1,4 @@
-﻿@model UserCompoViewModel
+﻿@model UserComponentViewModel
 
 <div class="card card-primary card-outline">
     <div class="card-body box-profile">
@@ -8,14 +8,17 @@
         <p class="text-muted text-center">@((Model.isAdmin) ? " ادمین" : "کاربر عادی")</p>
         <p class="text-center">@((Model.isActive) ? " فعال" : "غیرفعال")</p>
 
-        <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item">
-                <b>دنبال شونده</b> <a class="float-right">۱,۳۲۲</a>
-            </li>
-        </ul>
+        @* <ul class="list-group list-group-unbordered mb-3"> *@
+        @*     <li class="list-group-item"> *@
+        @*         <b>دنبال شونده</b> <a class="float-right">۱,۳۲۲</a> *@
+        @*     </li> *@
+        @* </ul> *@
 
-        <button class="btn btn-danger btn-block" onclick="DeleteProf('@Model.FullName','@Model.UserId')"><b>حذف پروفایل</b></button>
-        <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" class="btn btn-danger btn-block"><b>حذف کاربر</b></a>
+        @if (Model.ProfileIsForEdit == "Edit")
+        {
+            <button class="btn btn-danger btn-block" onclick="DeleteProf('@Model.FullName','@Model.UserId')"><b>حذف پروفایل</b></button>
+        }
+        <a asp-area="Admin" asp-controller="User" asp-action="DeleteUser" asp-route-id="@Model.UserId" class="btn btn-danger btn-block"><b>حذف کاربر</b></a>
     </div>
     <!-- /.card-body -->
 </div>

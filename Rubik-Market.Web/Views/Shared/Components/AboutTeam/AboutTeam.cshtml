@@ -1,0 +1,32 @@
+﻿@using Rubik_Market.Domain.ViewModels.AboutUs
+@model List<TeamMembersViewModel>
+
+@if (Model == null)
+{
+    <p>موردی یافت نشد</p>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div class="col-12 col-sm-6 col-lg-3">
+            <!-- Person Box -->
+            <figure class="team-person">
+                <div class="profile-image"><img src="/assets/dinamicImg/teamMembers/@item.TeamMemberImgName" alt="sample47"></div>
+                <figcaption>
+                    <h3>@item.TemaMemberName</h3>
+                    <h4>@item.TemaMemberJobTitle</h4>
+                    <p>@item.TemaMemberShortDescription</p>
+                    <div class="icons">
+                        @if (item.TwitterUrl != null) {<a href="@item.TwitterUrl"><i class="ion-social-twitter"> </i></a>}
+                        @if (item.GithubUrl != null){<a href="@item.GithubUrl"><i class="ion-social-github"></i> </a>}
+                        @if (item.RedditUrl != null) {<a href="@item.RedditUrl"><i class="ion-social-reddit"></i> </a>}
+                        @if (item.LinkedInUrl != null) {<a href="@item.LinkedInUrl"><i class="ion-social-linkedin"> </i></a>}
+                        @if (item.ZLinkUrl != null) {<a href="@item.ZLinkUrl"><i class="ion-social-world"> </i></a>}
+                    </div>
+                </figcaption>
+            </figure>
+            <!-- /Person Box -->
+        </div>
+    }
+}

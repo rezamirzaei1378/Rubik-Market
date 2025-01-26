@@ -1,0 +1,20 @@
+﻿@model Rubik_Market.Domain.ViewModels.AboutUs.AboutUsDescriptionViewModel
+
+
+<div class="row">
+    @if (Model == null)
+    {
+        <p> محتوایی یافت نشد</p>
+    }
+    else
+    {
+        <div class="col-12 col-lg-7">
+            <div class="title">معرفی فروشگاه</div>
+            @Model.AboutUsText
+        </div>
+        <div class="col-12 col-lg-5 align-self-center h-100">
+            <img src="/assets/dinamicImg/AboutUsDesc/@Model.AboutUsImageName" alt="AboutUsImage">
+        </div>
+    }
+    
+</div>

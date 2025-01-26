@@ -279,3 +279,11 @@ ul {
     justify-content:center;
     padding:10px;
 }
+
+.RejectCardShowFormat{
+    direction:rtl
+}
+.admin-aboutUs-img {
+    width: 115px;
+    height: 90px;
+}

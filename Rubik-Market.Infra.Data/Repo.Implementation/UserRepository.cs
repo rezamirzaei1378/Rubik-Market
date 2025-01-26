@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Rubik_Market.Domain.Models;
 using Rubik_Market.Domain.Repo.Contracts;
 using Rubik_Market.Infra.IOC.Context;
@@ -12,96 +7,135 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
 {
     #region UserRepository
 
-
-    public class UserRepository(RubikMarketDbContext context) : IUserRepository
+    public class UserRepository : IUserRepository
     {
+        #region Constructor
+
+        private readonly RubikMarketDbContext _context;
+
+        public UserRepository(RubikMarketDbContext context)
+        {
+            _context = context;
+        }
+
+        #endregion
+
+        #region ForAdmin
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await context.Users.ToListAsync();
+            return await _context.Users.Where(u=>u.isDelete == false).ToListAsync();
         }
 
-        public User GetUserById(int id)
+        public async Task<List<User>> GetAllDeletedUsersAsync()
         {
-            return context.Users.FirstOrDefault(u => u.ID == id);
+            return await _context.Users.Where(u => u.isDelete == true).ToListAsync();
         }
+
+        #endregion
+
+        #region ForUserPanel
+
+        //Empty
+
+        #endregion
+
+        #region ForSite
+
+        public async Task<bool> IsUserExistByIdAsync(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == id);
+            if (user != null)
+                return true;
+            return false;
+        }
+        public async Task<User?> GetUserByConfirmCodeAsync(string confirmCode)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.ConfirmCode == confirmCode);
+        }
+        #endregion
+
+        #region Shared
 
         public async Task AddUserAsync(User user)
         {
-            await context.AddAsync(user);
+            await _context.AddAsync(user);
         }
-
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
         public void UpdateUser(User user)
         {
-            context.Users.Update(user);
+            _context.Users.Update(user);
         }
-
-        public void DeleteUser(int id)
+        public async Task DeleteUserAsync(int id)
         {
-            var user = GetUserById(id);
+            var user = await GetUserByIdAsync(id);
+            if (user != null)
+                user.isDelete = true;
             DeleteUser(user);
         }
 
-        public void DeleteUser(User user)
+        public void DeleteUser(User? user)
         {
-            UpdateUser(user);
+            UpdateUser(user!);
         }
 
-        public async Task SaveAsync()
+        public async Task<User?> GetUserByIdAsync(int? id)
         {
-            await context.SaveChangesAsync();
+            return await _context.Users.FirstOrDefaultAsync(u => u.ID == id && u.isDelete == false);
         }
-
         public bool IsUserExistByEmailAsync(string email)
         {
-            return context.Users.Any(u => u.Email == email);
+            return _context.Users.Any(u => u.Email == email);
         }
-
-        public User GetUserByConfirmCode(string confirmCode)
+        public async Task<User?> GetUserByEmailAsync(string? email)
         {
-            return context.Users.FirstOrDefault(u => u.ConfirmCode == confirmCode);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
-
-        public User GetUserByEmail(string email)
-        {
-            return context.Users.FirstOrDefault(u => u.Email == email);
-        }
-
-        public bool IsUserExistByIdAsync(int id)
-        {
-            return context.Users.Any(u => u.ID == id);
-        }
+        #endregion
     }
+
     #endregion
 
-    #region UserPersonalInfoRepository
+    #region UserProfileRepository
 
-    public class UserPersonalInfoRepository(RubikMarketDbContext context): IUserPersonalInfoRepository
+    public class UserProfileRepository(RubikMarketDbContext context) : IUserProfileRepository
     {
 
-        public UserProfileInfo GetUserPersonalInfo(int id)
+        #region ForAdmin
+
+        //Empty
+
+        #endregion
+
+        #region ForUserPanel
+
+        //Empty
+
+        #endregion
+
+        #region ForSite
+
+        //Empty
+
+        #endregion
+
+        #region Shared
+
+        public async Task<UserProfileInfo?> GetUserProfileAsync(int? userId)
         {
-            return context.UserProfileInfo.FirstOrDefault(u=>u.UserId == id && u.isDelete == false);
+            return await context.UserProfileInfo.FirstOrDefaultAsync(p => p.UserId == userId &&p.isDelete == false);
         }
 
-        public async Task AddUserPersonalInfo(UserProfileInfo userPersonalInfo)
+        public async Task AddUserProfileAsync(UserProfileInfo userProfile)
         {
-            await context.UserProfileInfo.AddAsync(userPersonalInfo);
+            await context.UserProfileInfo.AddAsync(userProfile);
         }
 
-        public void UpdateUserPersonalInfo(UserProfileInfo userProfileInfo)
+        public void UpdateUserProfileAsync(UserProfileInfo userProfile)
         {
-            context.UserProfileInfo.Update(userProfileInfo);
-        }
-
-        public void DeleteUserPersonalInfo(int id)
-        {
-            var userPersonalInfo = GetUserPersonalInfo(id);
-            DeleteUserPersonalInfo(userPersonalInfo);
-        }
-
-        public void DeleteUserPersonalInfo(UserProfileInfo userProfileInfo)
-        {
-            UpdateUserPersonalInfo(userProfileInfo);
+            context.UserProfileInfo.Update(userProfile);
         }
 
         public async Task SaveAsync()
@@ -109,10 +143,8 @@ namespace Rubik_Market.Infra.Data.Repo.Implementation
             await context.SaveChangesAsync();
         }
 
-        public bool IsUserProfileExist(int id)
-        {
-            return context.UserProfileInfo.Any(u => u.UserId == id);
-        }
+        #endregion
+
     }
 
     #endregion

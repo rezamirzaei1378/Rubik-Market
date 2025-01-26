@@ -1,0 +1,48 @@
+﻿@model Rubik_Market.Domain.ViewModels.AboutUs.AboutUsDescriptionViewModel
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            
+            <!-- /.card-header -->
+           @if (Model == null)
+            {
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="col-md-6">
+                            <a class="btn btn-success" asp-area="Admin" asp-controller="AboutUs" asp-action="AddAboutUsDescription">ساخت درباره ما جدید</a>
+                        </div>
+                    </div>
+                    
+                </div>
+                    <div class="pr-2">موردی یافت نشد</div>
+            }
+           else
+           {
+               <div class="card-header">
+                   <h3 class="card-title">لیست درباره ما</h3>
+               </div>
+               <div class="card-body table-responsive p-0">
+                   <table class="table table-hover">
+                       <tbody>
+                       <tr>
+                           <th>توضیحات دارد؟</th>
+                           <th>نام عکس</th>
+                           <th>عملیات</th>
+                       </tr>
+                       <tr>
+                           <td>@(Model.AboutUsText == null ? "ندارد":"دارد")</td>
+                                <td><img class="admin-aboutUs-img" src="/assets/dinamicImg/AboutUsDesc/thumb/@Model.AboutUsImageName" /></td>
+                           <td>
+                               <a class="btn btn-warning" asp-area="Admin" asp-controller="AboutUs" asp-action="EditAboutUsDescription">ویرایش</a>
+                           </td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           }
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

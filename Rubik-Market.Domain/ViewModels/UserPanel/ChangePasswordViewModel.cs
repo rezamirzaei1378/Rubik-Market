@@ -4,7 +4,7 @@ namespace Rubik_Market.Domain.ViewModels.UserPanel;
 
 public class ChangePasswordViewModel
 {
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [Display(Name = "کلمه عبور فعلی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -23,10 +23,11 @@ public class ChangePasswordViewModel
     public string RePassword { get; set; }
 }
 
-public enum ResultChangePassword
+public enum ChangePasswordResult
 {
     Success,
     CurrentPasswordIsIncorrect,
-    UserNotFound
+    UserNotFound,
+    Error
 
 }

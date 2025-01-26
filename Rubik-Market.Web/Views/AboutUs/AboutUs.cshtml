@@ -1,0 +1,20 @@
+﻿<section class="inner-page" id="contact-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    @await Component.InvokeAsync("AboutUsDesc")
+                    <!-- Team -->
+                    <div class="row pt-5">
+                        <div class="col-12 text-center pt-4 pb-3">
+                            <h2 class="center-title">تیم ما</h2>
+                            <span class="sub-title">با تیم ما بیشتر آشنا شوید.</span>
+                        </div>
+                        @await Component.InvokeAsync("AboutTeam")
+                    </div>
+                    <!-- Team -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

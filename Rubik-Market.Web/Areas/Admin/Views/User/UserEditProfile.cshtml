@@ -1,4 +1,4 @@
-﻿@model EditUserDetailViewModel
+﻿@model Rubik_Market.Domain.ViewModels.User.Areas.AdminEditUserProfileViewModel
 
 <section class="content">
     <div class="container-fluid">
@@ -6,7 +6,7 @@
             <div class="col-md-3">
 
                 <!-- Profile Image -->
-                @await Component.InvokeAsync("UserProfileSideBar", new { id = @Model.UserId })
+                @await Component.InvokeAsync("UserProfileSideBar", new { id = Model.UserId})
                 <!-- /.card -->
 
             </div>
@@ -15,23 +15,23 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetail" asp-route-id="@Model.UserId">پروفایل</a></li>
-                            <li class="nav-item"><a class="nav-link active show" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetailEdit" asp-route-id="@Model.UserId">ویرایش کردن پروفایل کاربر</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="UserProfile" asp-route-userId="@Model.UserId">پروفایل</a></li>
+                            <li class="nav-item"><a class="nav-link active show" asp-area="Admin" asp-controller="User" asp-action="UserEditProfile" asp-route-id="@Model.UserId">ویرایش کردن پروفایل کاربر</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active show" id="settings">
-                                <form asp-area="Admin" asp-controller="User" asp-action="UserDetailEdit" class="form-horizontal" method="post">
+                                <form asp-area="Admin" asp-controller="User" asp-action="UserEditProfile" class="form-horizontal" method="post">
                                     <div class="form-group">
-                                        <label asp-for="NationalCode" class="col-sm-2 control-label"></label>
+                                        <label asp-for="NationalCode" class="control-label"></label>
                                         <div class="col-sm-10">
                                             <input class="form-control" asp-for="NationalCode">
                                             <span asp-validation-for="NationalCode"></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="CellPhoneNumber" class="col-sm-2 control-label"></label>
+                                        <label asp-for="CellPhoneNumber" class="control-label"></label>
 
                                         <div class="col-sm-10">
                                             <input class="form-control" asp-for="CellPhoneNumber">
@@ -39,14 +39,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="HousePhoneNumber" class="col-sm-2 control-label"></label>
+                                        <label asp-for="HousePhoneNumber" class="control-label"></label>
 
                                         <div class="col-sm-10">
                                             <input class="form-control" asp-for="HousePhoneNumber">
                                             <span asp-validation-for="HousePhoneNumber"></span>
                                         </div>
                                     </div> <div class="form-group">
-                                        <label asp-for="CardNumberForRejectMoney" class="col-sm-2 control-label"></label>
+                                        <label asp-for="CardNumberForRejectMoney" class="control-label"></label>
 
                                         <div class="col-sm-10">
                                             <input class="form-control" asp-for="CardNumberForRejectMoney">

@@ -1,4 +1,4 @@
-﻿@using Rubik_Market.Application.Extenstions
+﻿@model UserPanelComponentViewModel
 <div class="accordion" id="side-panel">
     <div class="accordion-item menu-container">
         <h2 class="accordion-header">
@@ -8,8 +8,7 @@
                         <img src="../assets/images/user-no-image.jpg" class="rounded-circle">
                     </span>
                     <span class="col-7 col-sm-8 col-lg-7 pt-0 pt-sm-2 pt-md-3 pt-lg-0 align-self-center">
-                        <div id="full-name">@User.GetUserFullName()</div>
-                        <div class="mt-2" id="email-mobile">09351234567</div>
+                        <div id="full-name">@Model.FullName</div>
                     </span>
                 </span>
             </button>
@@ -27,11 +26,12 @@
                     <li>
                         <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="ChangePassword" custom-data="ActiveLink" id="ChangePassword">
                             <div>
-                                <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/lock.webp" class="pl-2" style="hight:20px; width:21px"></div> تغییر کلمه عبور</div>
+                                <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/lock.webp" class="pl-2" style="hight:20px; width:21px"></div> تغییر کلمه عبور
+                            </div>
                         </a>
                     </li>
                     <li>
-                        @if (ViewData["AddOrEdit"] == "Edit")
+                        @if (Model.ProfileIsForEdit == true)
                         {
                             <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="EditUserPersonalInfo" custom-data="ActiveLink" id="UserPersonalInfo" asp-route-userId="@User.GetUserId()">
                                 <div>
@@ -68,3 +68,4 @@
         </div>
     </div>
 </div>
+

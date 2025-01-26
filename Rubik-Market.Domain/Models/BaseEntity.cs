@@ -9,7 +9,6 @@ namespace Rubik_Market.Domain.Models
     public class BaseEntity
     {
         public int ID { get; set; }
-
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public bool isDelete { get; set; } = false;
     }

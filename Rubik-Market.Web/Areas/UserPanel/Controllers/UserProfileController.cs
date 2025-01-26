@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rubik_Market.Application.Extenstions;
 using Rubik_Market.Application.Services.Contracts;
+using Rubik_Market.Domain.ViewModels.User.Areas;
 using Rubik_Market.Domain.ViewModels.UserPanel;
-using Rubik_Market.Web.Controllers;
 
 namespace Rubik_Market.Web.Areas.UserPanel.Controllers
 {
-    [Area("UserPanel")]
-    [Authorize]
-    public class UserProfileController : Controller
+
+    public class UserProfileController : UserPanelBaseController
     {
         #region Constructor
 
@@ -25,17 +23,14 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         #region UserProfile
 
         [Route("User-Profile")]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
             int userId = User.GetUserId();
-            var model = _userProfileServices.GetUserPersonalInfo(userId);
+            var model = await _userProfileServices.GetUserProfileAsync(userId);
+
             if (model == null)
                 return View("ErrorPages/Error404");
 
-            if (_userProfileServices.IsUserProfileFill(userId))
-            {
-                ViewData["AddOrEdit"] = "Edit";
-            }
             ViewData["Current-Page"] = "Profile";
 
             return View(model);
@@ -53,7 +48,7 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         }
 
         [HttpPost("Change-Password")]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             #region Validation
 
@@ -63,16 +58,19 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
             }
             #endregion
             model.UserId = User.GetUserId();
-            var result = _userProfileServices.ChangePassword(model);
+            var result = await _userProfileServices.ChangePassword(model);
             switch (result)
             {
-                case ResultChangePassword.Success:
+                case ChangePasswordResult.Success:
                     return RedirectToAction("Logout","Account");
-                case ResultChangePassword.CurrentPasswordIsIncorrect:
+                case ChangePasswordResult.CurrentPasswordIsIncorrect:
                     ModelState.AddModelError(nameof(ChangePasswordViewModel.CurrentPassword),"کلمه عبور فعلی صحیح نیست");
                     break;
-                case ResultChangePassword.UserNotFound:
+                case ChangePasswordResult.UserNotFound:
                     ModelState.AddModelError(nameof(ChangePasswordViewModel.CurrentPassword), "کاربر یافت نشد");
+                    break;
+                case ChangePasswordResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
                     break;
             }
             return View(model);
@@ -82,15 +80,21 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
         #region AddUserPersonalInfo
 
         [HttpGet("AddUserPersonalInfo")]
-        public IActionResult AddUserPersonalInfo()
+        public async Task<IActionResult> AddUserPersonalInfo()
         {
-            @ViewData["Current-Page"] = "UserPersonalInfo";
+            var id = User.GetUserId();
+            var userProfile = await _userProfileServices.GetUserProfileAsync(id);
+            if (userProfile.AddOrEdit == "Edit")
+            {
+                return RedirectToAction("EditUserPersonalInfo",new { userId =  id});
+            }
+            ViewData["Current-Page"] = "UserPersonalInfo";
             return View();
         }
 
         [HttpPost("AddUserPersonalInfo")]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUserPersonalInfo(AddUserPersonalInfoViewModel model)
+        public async Task<IActionResult> AddUserPersonalInfo(AddUserProfileViewModel model)
         {
 
             #region Validation
@@ -103,23 +107,22 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
             #endregion
 
             int userId = User.GetUserId();
-            model.UserId =userId;
+            model.UserId = userId;
 
-            var result = _userProfileServices.AddUserPersonalInfo(model);
+            var result = await _userProfileServices.AddUserProfileAsync(model);
             switch (result)
             {
-                case AddUserPersonalInfoResult.Success:
+                case AddUserProfileResult.Success:
                     TempData["Message"] = "ProfileAddSuccess";
                     return RedirectToAction(nameof(Profile));
-                case AddUserPersonalInfoResult.UserNotFound:
-                    ModelState.AddModelError(nameof(AddUserPersonalInfoViewModel.NationalCode),"کاربر یاقت نشد");
+                case AddUserProfileResult.UserNotFound:
+                    ModelState.AddModelError(nameof(AddUserProfileViewModel.NationalCode),"کاربر یاقت نشد");
                     return View(model);
-                case AddUserPersonalInfoResult.Failed:
+                case AddUserProfileResult.Error:
                     TempData["Massage"] = "FailedProfile";
-                    return View(model);
+                    return View();
             }
             
-            _userProfileServices.AddUserPersonalInfo(model);
             ViewData["Current-Page"] = "UserPersonalInfo";
             return View();
         }
@@ -130,26 +133,27 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
 
         [HttpGet("EditUserPersonalInfo")]
         
-        public IActionResult EditUserPersonalInfo(int userId)
+        public async Task<IActionResult> EditUserPersonalInfo(int userId)
         {
             if (userId == null)
             {
                 return NotFound();
             }
-            var userProfile = _userProfileServices.GetUserPersonalInfoToEdit(userId);
+            var userProfile = await _userProfileServices.GetUserProfileForEditAsync(userId);
             if (userProfile == null)
             {
                 return NotFound();
             }
-            ViewData["AddOrEdit"] = "Edit";
             ViewData["Current-Page"] = "UserPersonalInfo";
             return View(userProfile);
         }
 
         [HttpPost("EditUserPersonalInfo")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserPersonalInfo(EditUserPersonalInfoViewModel model)
+        public async Task<IActionResult> EditUserPersonalInfo(EditUserProfileViewModel model)
         {
+            model.UserId = User.GetUserId();
+
             #region Validation
 
             if (!ModelState.IsValid)
@@ -158,19 +162,19 @@ namespace Rubik_Market.Web.Areas.UserPanel.Controllers
             }
 
             #endregion
-            int userId = User.GetUserId();
-            model.UserId = userId;
 
-            var result = await _userProfileServices.EditUserPersonalInfo(model);
+            
+
+            var result = await _userProfileServices.EditUserProfileAsync(model);
             switch (result)
             {
-                case EditUserPersonalInfoResult.Success:
+                case EditUserProfileResult.Success:
                     TempData["Message"] = "ProfileEditSuccess";
                     return RedirectToAction(nameof(Profile));
-                case EditUserPersonalInfoResult.UserNotFound:
-                    ModelState.AddModelError(nameof(AddUserPersonalInfoViewModel.NationalCode), "کاربر یاقت نشد");
+                case EditUserProfileResult.UserNotFound:
+                    ModelState.AddModelError(nameof(EditUserProfileViewModel.NationalCode), "کاربر یاقت نشد");
                     return View(model);
-                case EditUserPersonalInfoResult.Failed:
+                case EditUserProfileResult.Error:
                     TempData["Massage"] = "FailedEditProfile";
                     return View(model);
             }

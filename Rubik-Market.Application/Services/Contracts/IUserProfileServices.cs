@@ -1,20 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Rubik_Market.Domain.Models;
+﻿using Rubik_Market.Domain.ViewModels.User.Areas;
 using Rubik_Market.Domain.ViewModels.UserPanel;
 
 namespace Rubik_Market.Application.Services.Contracts
 {
     public interface IUserProfileServices
     {
-        public UserPersonalInfoViewModel GetUserPersonalInfo(int id);
-        ResultChangePassword ChangePassword(ChangePasswordViewModel model);
-        AddUserPersonalInfoResult AddUserPersonalInfo(AddUserPersonalInfoViewModel model);
-        public bool IsUserProfileFill (int id);
-        public EditUserPersonalInfoViewModel GetUserPersonalInfoToEdit(int id);
-        Task<EditUserPersonalInfoResult> EditUserPersonalInfo(EditUserPersonalInfoViewModel model);
+        //ResultChangePassword ChangePassword(ChangePasswordViewModel model);
+        //public bool IsUserProfileFill (int id);
+
+        #region ForAdmin
+
+        //Empty
+
+        #endregion
+
+        #region ForUserPanel
+
+        Task<ChangePasswordResult> ChangePassword(ChangePasswordViewModel model);
+        Task<UserPanelComponentViewModel?> IsProfileForAddOrEdit(int userId);
+
+        #endregion
+
+        #region ForSite
+
+        //Empty
+
+        #endregion
+
+        #region Shared
+
+        Task<UserProfileViewModel> GetUserProfileAsync(int? userId);
+        Task<EditUserProfileViewModel> GetUserProfileForEditAsync(int userId);
+        Task<AddUserProfileResult> AddUserProfileAsync(AddUserProfileViewModel model);
+        Task<EditUserProfileResult> EditUserProfileAsync(EditUserProfileViewModel model);
+        Task<EditUserProfileResult> AdminEditUserProfileAsync(AdminEditUserProfileViewModel model);
+        Task<DeleteProfileResult> DeleteUserProfileAsync(int userId);
+        Task<bool> IsUserHaveProfileAsync(int userId);
+
+        #endregion
     }
 }

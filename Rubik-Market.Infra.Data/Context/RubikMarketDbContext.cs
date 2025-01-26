@@ -17,5 +17,33 @@ namespace Rubik_Market.Infra.IOC.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserProfileInfo> UserProfileInfo { get; set; }
+        public DbSet<AboutTeam> AboutTeam { get; set; }
+        public DbSet<AboutUsDescription> AboutUsDescription { get; set; }
+        
+        #region OnModelCreating
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+
+            #region AboutUsDescSeedData
+
+            modelBuilder.Entity<AboutUsDescription>()
+                .HasData(new AboutUsDescription()
+                {
+                    ID = 1,
+                    AboutUsImageName = "DefaultImg",
+                    CreateDate = DateTime.Now,
+                    AboutUsText = "Default",
+                    isDelete = false
+                });
+
+            #endregion
+            base.OnModelCreating(modelBuilder);
+        }
+
+        #endregion
     }
+
+
 }

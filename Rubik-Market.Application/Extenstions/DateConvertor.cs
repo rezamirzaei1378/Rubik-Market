@@ -17,7 +17,7 @@ namespace Rubik_Market.Application.Extenstions
                    persianCalendar.GetMonth(date).ToString("00") + "/" +
                    persianCalendar.GetDayOfMonth(date).ToString("00");
         }
-        public static string ToShamsiStr(this string date)
+        public static string ToShamsiStr(this string? date)
         {
             PersianCalendar persianCalendar = new PersianCalendar();
 

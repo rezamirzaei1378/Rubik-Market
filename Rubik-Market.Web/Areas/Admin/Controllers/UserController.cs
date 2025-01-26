@@ -1,39 +1,41 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Metadata;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Rubik_Market.Application.Extenstions;
+﻿using Microsoft.AspNetCore.Mvc;
 using Rubik_Market.Application.Services.Contracts;
-using Rubik_Market.Domain.Repo.Contracts;
-using Rubik_Market.Domain.Models;
 using Rubik_Market.Domain.ViewModels.Admin.User;
-using Rubik_Market.Infra.IOC.Context;
+using Rubik_Market.Domain.ViewModels.User.Areas;
 
 namespace Rubik_Market.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize]
-    public class UserController : Controller
+    public class UserController : AdminBaseController
     {
 
 
-        #region Costructor
-        private readonly IUserRepository _userRepository;
-        private readonly IUserPersonalInfoRepository _userPersonalInfoRepository;
+        #region Constructor
+        private readonly IUserServices _userServices;
+        private readonly IUserProfileServices _userProfileServices;
 
-        public UserController(IUserRepository userRepository,IUserPersonalInfoRepository userPersonalInfoRepository)
+        public UserController(IUserServices userServices, IUserProfileServices userProfileServices)
         {
-            _userRepository = userRepository;
-            _userPersonalInfoRepository = userPersonalInfoRepository;
+            _userServices = userServices;
+            _userProfileServices = userProfileServices;
         }
 
         #endregion
 
         #region UserList
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
-            var users = await _userRepository.GetAllUsersAsync();
+            var users = await _userServices.GetAllUsersAsync();
+            return View(users);
+        }
+
+        #endregion
+
+        #region DeletedUserList
+
+        public async Task<IActionResult> DeletedUserList()
+        {
+            var users = await _userServices.GetAllDeletedUsersAsync();
             return View(users);
         }
 
@@ -60,35 +62,20 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
             #endregion
 
-            try
+            var result = await _userServices.CreateUserAsync(model);
+            switch (result)
             {
-                if (_userRepository.IsUserExistByEmailAsync(model.UserEmail.Trim().ToLower()))
-                {
-                    ModelState.AddModelError(nameof(CreateUserViewModel.UserEmail), "کاربری با این ایمیل موجو است");
+                case CreateUserResult.Success:
+                    TempData[SuccessMessage] = "کاربر با موفقیت اضافه شد";
+                    return RedirectToAction(nameof(List));
+                case CreateUserResult.UserExist:
+                    ModelState.AddModelError(nameof(CreateUserViewModel.UserEmail), "کاربری با این ایمیل موجود است");
                     return View(model);
-                }
-
-                User user = new User()
-                {
-                    FullName = model.FullName,
-                    Email = model.UserEmail,
-                    CreateDate = DateTime.Now,
-                    ConfirmCode = null,
-                    Password = model.Password.EncodePasswordMd5(),
-                    isAdmin = model.isAdmin,
-                    isActive = model.isActive,
-                    isDelete = false
-                };
-                //TODO Add user image
-                await _userRepository.AddUserAsync(user);
-                await _userRepository.SaveAsync();
-                return RedirectToAction(nameof(Index));
+                case CreateUserResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return View(model);
             }
-            catch
-            {
-                return View(model);
-            }
-
+            return View(model);
         }
 
         #endregion
@@ -96,28 +83,25 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
         #region EditUser
 
         [HttpGet("Edit-User")]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
+
+            var userExist = await _userServices.IsUserExistByIdAsync(id);
+            if (!userExist)
+            {
+                TempData[ErrorMessage] = "کاربری یافت نشد";
+                return RedirectToAction(nameof(List));
             }
 
-            var user = _userRepository.GetUserById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            EditUserViewModel model = new EditUserViewModel()
-            {
-                FullName = user.FullName,
-                Id = user.ID,
-                isActive = user.isActive,
-                isAdmin = user.isAdmin,
-                UserEmail = user.Email,
-            };
+
+            var model = await _userServices.GetUserByIdForEditAsync(id);
+
             return View(model);
         }
+
+
         [HttpPost("Edit-User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditUserViewModel model)
@@ -131,35 +115,22 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
             #endregion
 
-            try
+            var result = await _userServices.UpdateUserAsync(model);
+
+            switch (result)
             {
-                var userPassword = _userRepository.GetUserById(model.Id).Password;
-                User user2 = new User()
-                {
-                    ID = model.Id,
-                    FullName = model.FullName,
-                    Email = model.UserEmail,
-                    isAdmin = model.isAdmin,
-                    isActive = model.isActive,
-                    Password = userPassword
-                };
-                _userRepository.UpdateUser(user2);
-                await _userRepository.SaveAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_userRepository.IsUserExistByIdAsync(model.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
+                case EditUserResult.Success:
+                    TempData[SuccessMessage] = "کاربر با موفقیت ویرایش شد";
+                    return RedirectToAction(nameof(List));
+                case EditUserResult.UserNotExist:
+                    TempData[ErrorMessage] = "کاربر یافت نشد";
+                    return View(model);
+                case EditUserResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return View(model);
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(model);
         }
 
         #endregion
@@ -168,55 +139,33 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = _userRepository.GetUserById(id);
-            if (user == null)
+            var result = await _userServices.DeleteUserAsync(id);
+            switch (result)
             {
-                return NotFound();
+                case DeleteUserResult.Success:
+                    TempData[SuccessMessage] = "کاربر با موفقیت حذف شد";
+                    return RedirectToAction(nameof(List));
+                case DeleteUserResult.UserNotExist:
+                    TempData[ErrorMessage] = "کاربر یافت نشد";
+                    return RedirectToAction(nameof(List));
+                case DeleteUserResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return RedirectToAction(nameof(List));
             }
-            user.isDelete = true;
-            _userRepository.DeleteUser(user);
-            await _userRepository.SaveAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
         #endregion
 
-        #region User Detailes
+        #region UserProfile
 
-        public IActionResult UserDetail(int id)
+        public async Task<IActionResult> UserProfile(int userId)
         {
-            var user = _userRepository.GetUserById(id);
-            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
-            if (user==null)
+            var model = await _userProfileServices.GetUserProfileAsync(userId);
+            if (model == null)
             {
-                NotFound();
+                return NotFound();
             }
-
-            UserDetailViewModel model = new UserDetailViewModel
-            {
-                UserId = user.ID,
-                Email = user.Email,
-                isDeleted = user.isDelete,
-                UserCreateDate = user.CreateDate
-            };
-            if (userProfile == null||userProfile.isDelete == true)
-            {
-                model.CardNumberForRejectMoney = " ";
-                model.NationalCode = " ";
-                model.BirthDate = " ";
-                model.CellPhoneNumber = " ";
-                model.HousePhoneNumber = " ";
-            }
-            else
-            {
-                ViewData["EditUserProfiel"]="True";
-                model.NationalCode = userProfile.NationalCode ?? " ";
-                model.HousePhoneNumber = userProfile.HousePhoneNumber ?? " ";
-                model.BirthDate = (userProfile.BirthDate==null) ? " " : userProfile.BirthDate.ToShamsiStr();
-                model.CardNumberForRejectMoney = (userProfile.CardNumberForRejectMoney==null)? " ":userProfile.CardNumberForRejectMoney.ChangeCardShowFormat();
-                model.CellPhoneNumber = userProfile.CellPhoneNumber ?? " ";
-            }
-
             return View(model);
         }
 
@@ -225,13 +174,16 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
         #region User Detailes Add
 
         [HttpGet]
-        public IActionResult UserDetailAdd(int id)
+        public IActionResult UserAddProfile(int userId)
         {
-            ViewData["UserId"] = id;
-            return View();
+            var model = new AddUserProfileViewModel
+            {
+                UserId = userId
+            };
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> UserDetailAdd(AddUserDetailViewModel model)
+        public async Task<IActionResult> UserAddProfile(AddUserProfileViewModel model)
         {
             #region Validation
 
@@ -242,27 +194,20 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
             #endregion
 
-            try
+            var result = await _userProfileServices.AddUserProfileAsync(model);
+
+            switch (result)
             {
-                UserProfileInfo profile = new UserProfileInfo
-                {
-                    CreateDate = DateTime.Now,
-                    isDelete = false,
-                    UserId = model.UserId,
-                    NationalCode = model.NationalCode,
-                    CellPhoneNumber = model.CellPhoneNumber,
-                    HousePhoneNumber = model.HousePhoneNumber,
-                    BirthDate = null,
-                    CardNumberForRejectMoney = model.CardNumberForRejectMoney,
-                };
-                await _userPersonalInfoRepository.AddUserPersonalInfo(profile);
-                await _userPersonalInfoRepository.SaveAsync();
-                return RedirectToAction(nameof(Index));
+                case AddUserProfileResult.Success:
+                    TempData[SuccessMessage] = "پروفایل با موفقیت اضافه شد";
+                    return RedirectToAction(nameof(List));
+                case AddUserProfileResult.UserNotFound:
+                    return NotFound();
+                case AddUserProfileResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return View(model);
             }
-            catch
-            {
-                return View(model);
-            }
+
             return View(model);
         }
 
@@ -271,24 +216,25 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
         #region User Detaile Edit
 
         [HttpGet]
-        public IActionResult UserDetailEdit(int id)
+        public async Task<IActionResult> UserEditProfile(int userId)
         {
-            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
-            if (userProfile == null) {
+            var userProfile = await _userProfileServices.GetUserProfileAsync(userId);
+            if (userProfile == null)
+            {
                 return NotFound();
             }
-            EditUserDetailViewModel model = new EditUserDetailViewModel()
+            AdminEditUserProfileViewModel model = new AdminEditUserProfileViewModel()
             {
-                UserId = id,
+                UserId = userId,
                 NationalCode = userProfile.NationalCode,
                 CellPhoneNumber = userProfile.CellPhoneNumber,
                 HousePhoneNumber = userProfile.HousePhoneNumber,
-                CardNumberForRejectMoney = userProfile.CardNumberForRejectMoney,
+                CardNumberForRejectMoney = userProfile.CardNumberForRejectMoney
             };
             return View(model);
         }
         [HttpPost]
-        public IActionResult UserDetailEdit(EditUserDetailViewModel model)
+        public async Task<IActionResult> UserEditProfile(AdminEditUserProfileViewModel model)
         {
             #region Validation
             if (!ModelState.IsValid)
@@ -296,25 +242,21 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
                 return View(model);
             }
             #endregion
-            try
+
+            var result = await _userProfileServices.AdminEditUserProfileAsync(model);
+
+            switch (result)
             {
-            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(model.UserId);
-
-                userProfile.UserId = model.UserId;
-                userProfile.NationalCode = model.NationalCode;
-                userProfile.CellPhoneNumber = model.CellPhoneNumber;
-                userProfile.HousePhoneNumber = model.HousePhoneNumber;
-                userProfile.CardNumberForRejectMoney = model.CardNumberForRejectMoney;
-
-                _userPersonalInfoRepository.UpdateUserPersonalInfo(userProfile);
-                _userPersonalInfoRepository.SaveAsync();
-                return RedirectToAction("UserDetail", "User",model.UserId);
+                case EditUserProfileResult.Success:
+                    TempData[SuccessMessage] = "پروفایل با موفقیت ویرایش شد";
+                    return RedirectToAction(nameof(List));
+                case EditUserProfileResult.UserNotFound:
+                    return NotFound();
+                case EditUserProfileResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return View(model);
             }
-            catch
-            {
-
             return View(model);
-            }
         }
 
         #endregion
@@ -323,16 +265,20 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserDetailDelete(int id)
         {
-            var userProfile = _userPersonalInfoRepository.GetUserPersonalInfo(id);
-            if (userProfile == null)
+            var result = await _userProfileServices.DeleteUserProfileAsync(id);
+
+            switch (result)
             {
-                ViewData["Message"] = "UserNotFound";
-                return View();
+                case DeleteProfileResult.Success:
+                    TempData[SuccessMessage] = "پروفایل با موفقیت حذف شد";
+                    return RedirectToAction(nameof(List));
+                case DeleteProfileResult.UserNotFound:
+                    return NotFound();
+                case DeleteProfileResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    return RedirectToAction(nameof(UserProfile),id);
             }
-            userProfile.isDelete = true;
-            _userPersonalInfoRepository.UpdateUserPersonalInfo(userProfile);
-            await _userPersonalInfoRepository.SaveAsync();
-            return RedirectToAction("Index","User");
+            return RedirectToAction(nameof(List));
         }
 
         #endregion

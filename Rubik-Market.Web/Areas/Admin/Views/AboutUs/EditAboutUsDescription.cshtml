@@ -1,0 +1,43 @@
+﻿@model Rubik_Market.Domain.ViewModels.AboutUs.EditAboutUsDescriptionViewModel
+
+@{
+    ViewData["Title"] = "ویرایش درباره ما ";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="AboutUs" asp-action="EditAboutUsDescription" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="AboutUsImageName"/>
+                            <div class="form-group">
+                                <label asp-for="AboutUsText">توضیخات</label>
+                                <textarea class="form-control" asp-for="AboutUsText"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Image">عکس</label>
+                                <input type="file" asp-for="Image" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="ویرایش درباره ما" class="btn btn-warning" />
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('AboutUsText');
+    </script>
+}
+

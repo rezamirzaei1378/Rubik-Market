@@ -1,0 +1,94 @@
+﻿@model List<Rubik_Market.Domain.ViewModels.AboutUs.TeamMembersViewModel>
+
+@{
+    int count = 1;
+    ViewData["Title"] = "درباره ما";
+}
+
+
+<section class="content">
+    @await Component.InvokeAsync("AboutUsDescriptionList")
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">لیست اعضای تیم</h3>
+
+                    <div class="card-tools">
+                        <a class="btn btn-success" asp-area="Admin" asp-controller="AboutUs" asp-action="AddTeamMember"> ایجاد عضو جدید</a>
+                        @*     <div class="input-group input-group-sm" style="width: 150px;"> *@
+                        @*         <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو"> *@
+
+                        @*         <div class="input-group-append"> *@
+                        @*             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button> *@
+                        @*         </div> *@
+                        @*     </div> *@
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                @if (Model == null)
+                {
+                    <p>موردی یافت نشد</p>
+                }
+                else
+                {
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <th>شماره</th>
+                                <th>نام</th>
+                                <th>عنوان شغلی</th>
+                                <th>تصویر</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>عملیات</th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@item.TemaMemberName</td>
+                                    <td>@item.TemaMemberJobTitle</td>
+                                    <td><img class="admin-aboutUs-img" src="/assets/dinamicImg/teamMembers/@item.TeamMemberImgName"/></td>
+                                    <td>@item.CreateDate.ToShamsi()</td>
+                                    <td>
+                                        <a class="btn btn-warning" asp-area="Admin" asp-controller="AboutUs" asp-action="EditTeamMember" asp-route-id="@item.ID">ویرایش </a>
+                                            <a class="btn btn-danger" onclick="deleteTeamMember('@item.TemaMemberName','@item.ID')">حذف</a>
+                                    </td>
+                                </tr>
+                                count = +1;
+                            }
+                            </tbody>
+
+                        </table>
+                    </div>
+                }
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        function deleteTeamMember(name,id) {
+            Swal.fire({
+                    title: `آیا از حذف پروفایل ${name} مطمعن هستید؟`,
+                    icon: 'question',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'بله ',
+                    cancelButtonText: 'خیر'
+                })
+                .then(res => {
+                    if (res.isConfirmed) {
+                        fetch(`/Admin/AboutUs/DeleteTeamMember/${id}`, { method: 'GET' });
+                    } else {
+                        console.log('no');
+                    }
+                });
+        }
+    </script>
+}

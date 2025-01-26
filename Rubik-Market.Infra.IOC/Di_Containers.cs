@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Rubik_Market.Application.Services.Contracts;
 using Rubik_Market.Application.Services.Implementation;
 using Rubik_Market.Domain.Repo.Contracts;
@@ -17,9 +12,10 @@ namespace Rubik_Market.Infra.IOC
         {
             #region Services
 
-            services.AddScoped<IUserServices,UserService> ();
-            services.AddScoped<IUserProfileServices,UserProfileServices> ();
-            services.AddScoped<IEmailSender,EmailSender> ();
+            services.AddScoped<IUserServices, UserService>();
+            services.AddScoped<IUserProfileServices, UserProfileServices>();
+            services.AddScoped<IAboutUsServices, AboutUsServices>();
+            services.AddScoped<IEmailSender, EmailSender>();
 
             #endregion
 
@@ -27,7 +23,8 @@ namespace Rubik_Market.Infra.IOC
             #region Repositories
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserPersonalInfoRepository, UserPersonalInfoRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 
             #endregion
         }

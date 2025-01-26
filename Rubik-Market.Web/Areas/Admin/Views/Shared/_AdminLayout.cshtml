@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <partial name="Partials/_AdminHeaderReferences"/>
+    @await RenderSectionAsync("Styles",false)
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <partial name="Partials/_AdminHeaderNavbar"/>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        
+        <partial name="Partials/_AdminSideNavbar"/>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 625px;">
+            <partial name="Partials/_AdminPageTitleSection"/>
+            <!-- Main content -->
+            @RenderBody()
+            <!-- /.content -->
+        </div>
+
+        <!-- /.content-wrapper -->
+    </div>
+    <partial name="Partials/_AdminFooterReferences"/>
+    @await RenderSectionAsync("Scripts",false)
+</body>
+</html>

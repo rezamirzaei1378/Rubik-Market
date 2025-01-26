@@ -28,7 +28,7 @@ namespace Rubik_Market.Web.Controllers
         }
 
         [HttpPost("Register")]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             #region Validation
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace Rubik_Market.Web.Controllers
             }
             #endregion
 
-            var result = _userServices.RegisterUser(model);
+            var result = await _userServices.RegisterUserAsync(model);
             switch (result)
             {
                 case ResultRegister.Success:
@@ -68,7 +68,7 @@ namespace Rubik_Market.Web.Controllers
             return View();
         }
         [HttpPost("ActiveAccount")]
-        public IActionResult ActiveAccount(ActiveAccountViewModel model)
+        public async Task<IActionResult> ActiveAccount(ActiveAccountViewModel model)
         {
             #region Validation
 
@@ -79,7 +79,7 @@ namespace Rubik_Market.Web.Controllers
 
             #endregion
 
-            var result = _userServices.ActiveAccount(model);
+            var result = await _userServices.ActiveAccountAsync(model);
 
             switch (result)
             {
@@ -116,12 +116,12 @@ namespace Rubik_Market.Web.Controllers
             }
             #endregion
 
-            var result = _userServices.LoginUser(model);
+            var result = await _userServices.LoginUserAsync(model);
 
             switch (result)
             {
                 case ResultLogin.Success:
-                    var user = _userServices.GetUserByEmail(model.UserEmail);
+                    var user = await _userServices.GetUserByEmailAsync(model.UserEmail);
                     if (user == null)
                     {
                         ModelState.AddModelError(nameof(LoginViewModel.UserEmail), "اطلاعات وارد شده صحیح نمی باشد");
@@ -190,7 +190,7 @@ namespace Rubik_Market.Web.Controllers
             return View();
         }
         [HttpPost("Forgot-Password")]
-        public IActionResult ForgetPassword(ForgetPasswordViewModel model)
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
         {
             #region Validation
 
@@ -201,7 +201,7 @@ namespace Rubik_Market.Web.Controllers
 
             #endregion
 
-            var result = _userServices.ForgetPassword(model);
+            var result = await _userServices.ForgetPasswordAsync(model);
 
             switch (result)
             {
@@ -225,7 +225,7 @@ namespace Rubik_Market.Web.Controllers
         }
 
         [HttpPost("Reset-Password")]
-        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             #region Validation
 
@@ -236,7 +236,7 @@ namespace Rubik_Market.Web.Controllers
 
             #endregion
 
-            var result = _userServices.ResetPassword(model);
+            var result = await _userServices.ResetPasswordAsync(model);
 
             switch (result)
             {

@@ -1,4 +1,4 @@
-﻿@model UserPersonalInfoViewModel
+﻿@model Rubik_Market.Domain.ViewModels.User.Areas.UserProfileViewModel
 @{
     ViewData["Title"] = "حساب کاربری";
 
@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-12 col-lg-3">
                             <!-- Side Panel -->
-                            <partial name="Partials/_UserPorfileSideBar" />
+                            @await Component.InvokeAsync("UserPanelSideBar" , new { id = User.GetUserId() })
                             <!-- /Side Panel -->
                         </div>
                         <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">

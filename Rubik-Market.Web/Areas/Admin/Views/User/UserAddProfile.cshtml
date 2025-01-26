@@ -1,7 +1,7 @@
-﻿@model AddUserDetailViewModel
+﻿@model AddUserProfileViewModel
 
 @{
-    var userId = ViewData["UserId"];
+    ViewData["Title"] = "اضافه کردن پروفایل کاربر";
 }
 <section class="content">
     <div class="container-fluid">
@@ -9,7 +9,7 @@
             <div class="col-md-3">
 
                 <!-- Profile Image -->
-                @await Component.InvokeAsync("UserProfileSideBar", new { id =userId })
+                @await Component.InvokeAsync("UserProfileSideBar", new { id =Model.UserId })
                 <!-- /.card -->
 
             </div>
@@ -18,14 +18,14 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetail" asp-route-id="@userId">پروفایل</a></li>
-                            <li class="nav-item"><a class="nav-link active show" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserDetailAdd" asp-route-id="@userId">اضافه کردن پروفایل کاربر</a></li>
+                            <li class="nav-item"><a class="nav-link" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserProfile" asp-route-id="@Model.UserId">پروفایل</a></li>
+                            <li class="nav-item"><a class="nav-link active show" id="navbartoggle" asp-area="Admin" asp-controller="User" asp-action="UserAddProfile" asp-route-id="@Model.UserId">اضافه کردن پروفایل کاربر</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active show" id="settings">
-                                <form asp-area="Admin" asp-controller="User" asp-action="UserDetailAdd" class="form-horizontal" method="post">
+                                <form asp-area="Admin" asp-controller="User" asp-action="UserAddProfile" class="form-horizontal" method="post">
                                     <div class="form-group">
                                         <label asp-for="NationalCode" class="col-sm-2 control-label"></label>
                                         <div class="col-sm-10">
@@ -56,7 +56,7 @@
                                             <span asp-validation-for="CardNumberForRejectMoney"></span>
                                         </div>
                                     </div>
-                                    <input type="hidden" asp-for="UserId" value="@userId"/>
+                                    <input type="hidden" asp-for="UserId" value="@Model.UserId"/>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <input type="submit" class="btn btn-success" value="ثبت" />

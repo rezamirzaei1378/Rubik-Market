@@ -1,0 +1,104 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model List<User>
+@{
+    ViewData["Title"] = "لیست کاربران";
+    int count = 0;
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <a asp-area="Admin" asp-controller="User" asp-action="Create" class="btn btn-success">ساخت کاربر جدید</a>
+                        </div>
+
+                        @* <div class="card-tools"> *@
+                        @*     <ul class="pagination pagination-sm m-0 float-right"> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">«</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۱</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۲</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۳</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">»</a></li> *@
+                        @*     </ul> *@
+                        @* </div> *@
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        @if (!Model.IsNullOrEmpty())
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>نام و نام خانوادگی</th>
+                                        <th>ایمیل</th>
+                                        <th>وضعیت فعال بودن حساب</th>
+                                        <th>وضعیت کاربر</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td><div class="status-box">@count</div></td>
+                                            <td><div class="status-box">@item.FullName</div></td>
+                                            <td><div class="status-box">@item.Email</div></td>
+                                            <td>
+                                                <div class="status-box">
+                                                    <span class="@((item.isActive) ? " badge bg-success" : "badge bg-danger")">
+                                                        @((item.isActive) ? "فعال" : "غیر فعال")
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="status-box">
+                                                    <span class="@((item.isAdmin) ? " badge bg-success" : "badge bg-danger")">
+                                                        @((item.isAdmin) ? "ادمین" : "کاربر عادی")
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@item.ID">ویرایش</a>
+                                                <a class="btn btn-info" asp-area="Admin" asp-controller="User" asp-action="UserProfile" asp-route-userId="@item.ID">پروفایل کاربر</a>
+                                                <button class="btn btn-danger" onclick="deleteUser(`@item.FullName`,@item.ID)">حذف</button>
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p> کابری موجود نیست</p>
+                        }
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+@section Scripts
+{
+    <script>
+        function deleteUser(name,id){
+            if (confirm(`از حذف کاربر ${name} مطمعن هستی؟`)) {
+            // deleteUser(id);
+            fetch(`/Admin/User/DeleteUser/${id}`,{method:'GET'})
+            .then(()=>{
+                const userDeleted = document.getElementById('deleted_'+id);
+                userDeleted.className="badge bg-success";
+                userDeleted.textContent = "True";
+            })
+            }
+
+        }
+
+    </script>
+}
