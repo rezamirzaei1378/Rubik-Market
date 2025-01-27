@@ -90,12 +90,7 @@
         function deleteUser(name,id){
             if (confirm(`از حذف کاربر ${name} مطمعن هستی؟`)) {
             // deleteUser(id);
-            fetch(`/Admin/User/DeleteUser/${id}`,{method:'GET'})
-            .then(()=>{
-                const userDeleted = document.getElementById('deleted_'+id);
-                userDeleted.className="badge bg-success";
-                userDeleted.textContent = "True";
-            })
+            fetch(`/Admin/User/DeleteUser/${id}`, { method: 'GET' });
             }
 
         }

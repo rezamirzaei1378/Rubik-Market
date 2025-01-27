@@ -72,6 +72,34 @@
                             </p>
                         </a>
                     </li>
+                    
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-user"></i>
+                            <p>
+                                FAQ
+                                <i class="right fa fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-area="Admin" asp-controller="Faq" asp-action="List" class="nav-link">
+                                    <i class="nav-icon fa fa-user"></i>
+                                    <p>
+                                        لیست سوالات پر تکرار 
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="Admin" asp-controller="Faq" asp-action="DeletedList" class="nav-link">
+                                    <i class="nav-icon fa fa-user"></i>
+                                    <p>
+                                        لیست سوالات پر تکرار حذف شده
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

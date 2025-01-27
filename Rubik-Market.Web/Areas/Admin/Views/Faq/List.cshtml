@@ -1,0 +1,86 @@
+﻿@model List<Rubik_Market.Domain.ViewModels.FAQ.FaqAdminSideViewModel>
+@{
+    int count = 1;
+    ViewData["Title"] = "لیست سوالات پر تکرار";
+}
+@section Styles
+{
+    <style>
+        tr {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+    </style>
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="btn badge-success" asp-area="Admin" asp-controller="Faq" asp-action="CreateFaq">سوال جدید</a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            @if (Model == null)
+                            {
+                                <h4>موردی یافت نشد</h4>
+                            }
+                            else
+                            {
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>سوال</th>
+                                        <th>تاریخ ایجاد</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td class="truncate">@item.Question</td>
+                                            <td>@item.CreateDate</td>
+                                            <td>
+                                                <a class="btn btn-warning" asp-action="EditFaq" asp-route-id="@item.Id">ویرایش</a>
+                                                <a class="btn btn-danger" onclick="deleteFaq(@item.Id, this)">حذف</a>
+                                            </td>
+                                        </tr>
+                                        count++;
+                                    }
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        function deleteFaq(id,a){
+            if (confirm(`از حذف کاربر این سوال مطمعن هستی؟`)) {
+
+                fetch(`/Admin/Faq/DeleteFaq/${id}`, { method: 'GET' })
+                    .then(() => {
+                        const row = a.closest('tr');
+                        row.classList.add('fade-out');
+                        setTimeout(() => {
+                                row.remove();
+                            }, 500);
+                    });
+            }
+
+        }
+
+    </script>
+}

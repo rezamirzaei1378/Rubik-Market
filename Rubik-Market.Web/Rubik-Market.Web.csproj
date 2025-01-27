@@ -28,9 +28,4 @@
     <ProjectReference Include="..\Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AboutUsViewComponent\" />
-    <Folder Include="AboutTeamViewComponent\" />
-  </ItemGroup>
-
 </Project>

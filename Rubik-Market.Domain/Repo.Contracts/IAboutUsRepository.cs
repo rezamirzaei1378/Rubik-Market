@@ -7,8 +7,6 @@ public interface IAboutUsRepository
     Task<AboutUsDescription?> GetAboutUsDescriptionAsync();
     Task AddAboutUsDescriptionAsync(AboutUsDescription model);
     public void UpdateAboutUsDescription(AboutUsDescription model);
-    public void DeleteAboutUsDescription(int id);
-    public void DeleteAboutUsDescription(AboutUsDescription model);
     Task AboutSaveAsync();
 
     Task<List<AboutTeam>> GetTeamMembersDetailAsync();
