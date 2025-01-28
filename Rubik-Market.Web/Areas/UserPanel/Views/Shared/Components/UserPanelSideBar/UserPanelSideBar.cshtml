@@ -26,7 +26,7 @@
                     <li>
                         <a asp-area="UserPanel" asp-controller="UserProfile" asp-action="ChangePassword" custom-data="ActiveLink" id="ChangePassword">
                             <div>
-                                <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/lock.webp" class="pl-2" style="hight:20px; width:21px"></div> تغییر کلمه عبور
+                                <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/lock.webp" class="pl-2" style="height: 20px; width:21px"></div> تغییر کلمه عبور
                             </div>
                         </a>
                     </li>
@@ -49,7 +49,7 @@
                         }
                     </li>
                     <li>
-                        <a href="addresses.html">
+                        <a asp-area="UserPanel" asp-controller="UserAddress" asp-action="List">
                             <div>
                                 <div class="icon d-inline-block"><img src="../assets/images/icons/profile-menu/addresses.webp" class="pl-2"></div> آدرس های من
                             </div>

@@ -1,0 +1,44 @@
+﻿@model List<Rubik_Market.Domain.ViewModels.Address.ClientSideAddressViewModel>
+
+<div class="custom-container" id="addresses">
+    <div class="row pt-2 px-3">
+        <div class="col-12"><h1>آدرس های من</h1></div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <!-- Address Record -->
+            @foreach (var item in Model)
+            {
+                <div class="col-12 address py-2 to-fade">
+                    <div class="row">
+                        <div class="col-12 col-sm-10">
+                            <div class="title">@item.City، @item.Area</div>
+                            <div class="sub-title">@item.City، @item.Provnice</div>
+                            <div class="sub-title">@item.UserAddress</div>
+                            <div class="sub-title">@item.PostalCode</div>
+                            <div class="sub-title">@item.ConsigneeName</div>
+                            <div class="sub-title">@item.ConsigneePhoneNumber</div>
+                        </div>
+                        <div class="col-12 col-sm-2 text-lg-end">
+                            <a class="float-right float-sm-left pr-2 pl-sm-2" onclick="deleteAddress(@item.Id)"><i class="fa fa-trash-alt font-weight-normal"></i></a>
+                            <a class="float-right float-sm-left" asp-area="UserPanel" asp-controller="UserAddress" asp-action="EditAddress" asp-route-id="@item.Id"><i class="fa fa-edit font-weight-normal"></i></a>
+                            
+                                @if (item.CurrentAddress == true)
+                                {
+                                <a href="#" class="float-right float-sm-left ml-2" title="آدرس پیش فرض"> <i class="fa fa-check-circle" style="color: #fcb941"></i></a>
+                                }
+                                else
+                                {
+                                <a onclick="changeCurrentAddress(@item.Id)" class="float-right float-sm-left ml-2" title="آدرس پیش فرض"><i class="fa fa-circle-notch"></i></a>
+                                }
+                            
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- Address Record -->
+        </div>
+    </div>
+</div>
+

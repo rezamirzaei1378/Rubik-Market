@@ -1483,6 +1483,10 @@ section.inner-page#profile-page #profile-fields .profile-field .value {
 section.inner-page#profile-page #addresses .address {
   border-bottom: 1px solid #282828;
 }
+
+section.inner-page#profile-page #addresses .address:last-child {
+    border-bottom: none;
+}
 section.inner-page#profile-page #addresses .address a svg {
   font-size: 24px;
   color: #fcb941;
@@ -1954,6 +1958,13 @@ img {
   font-size: 10px;
 }
 
+.to-fade {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
+}
 /* /Boxes */
 
 /*# sourceMappingURL=style.css.map */

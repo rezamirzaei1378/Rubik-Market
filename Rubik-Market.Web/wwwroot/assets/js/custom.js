@@ -34,3 +34,4 @@ function jalali_to_gregorian(jy, jm, jd) {
     }
     return [gy, gm, gd];
 }
+

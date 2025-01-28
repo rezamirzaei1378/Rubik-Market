@@ -1,0 +1,102 @@
+﻿@model Rubik_Market.Domain.ViewModels.Address.EditAddressViewModel
+
+@{
+    ViewData["Title"] = " ویرایش آدرس ";
+
+}
+<section class="inner-page" id="profile-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <!-- Side Panel -->
+                            @await Component.InvokeAsync("UserPanelSideBar", new { id = User.GetUserId() })
+                            <!-- /Side Panel -->
+                        </div>
+                        <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                            <div class="custom-container mb-2" id="new-address">
+                                <div class="row pt-2 px-3">
+                                    <div class="col-12"><h1>افزودن آدرس جدید</h1></div>
+                                </div>
+                                <hr>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 pt-3">
+                                            <form class="row" asp-area="UserPanel" asp-controller="UserAddress" asp-action="EditAddress" method="post">
+                                                <input type="hidden" asp-for="UserId" />
+                                                <input type="hidden" asp-for="Id" />
+                                                
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="Provnice">استان:</label>
+                                                        <input asp-for="Provnice" class="form-control"/>
+                                                        <span asp-validation-for="Provnice"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="City">شهر :</label>
+                                                        <input asp-for="City" class="form-control" />
+                                                        <span asp-validation-for="City"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="Area">محله :</label>
+                                                        <input type="text" asp-for="Area" class="form-control">
+                                                        <span asp-validation-for="Area"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-8 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="UserAddress">نشانی کامل:</label>
+                                                        <input type="text" asp-for="UserAddress" class="form-control">
+                                                        <span asp-validation-for="UserAddress"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="PostalCode">کد پستی:</label>
+                                                        <input type="text" asp-for="PostalCode" class="form-control">
+                                                        <span asp-validation-for="PostalCode"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="ConsigneeName">تحویل گیرنده:</label>
+                                                        <input type="text" asp-for="ConsigneeName" class="form-control">
+                                                        <span asp-validation-for="ConsigneeName"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="ConsigneePhoneNumber">تلفن تماس:</label>
+                                                        <input type="text" asp-for="ConsigneePhoneNumber" class="form-control">
+                                                        <span asp-validation-for="ConsigneePhoneNumber"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 pl-2">
+                                                    <div class="form-group m-1">
+                                                        <label asp-for="CurrentAddress">انتخاب به عنوان آدرس فعلی</label>
+                                                        <input asp-for="CurrentAddress" class="form-check-input">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group m-1 pb-3">
+                                                        <input type="submit" class="btn btn-primary px-5" value="ویرایش آدرس">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

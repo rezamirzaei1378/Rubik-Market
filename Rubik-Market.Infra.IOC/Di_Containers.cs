@@ -16,6 +16,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IUserProfileServices, UserProfileServices>();
             services.AddScoped<IAboutUsServices, AboutUsServices>();
             services.AddScoped<IFaqServices, FaqServices>();
+            services.AddScoped<IUserAddressServices, UserAddressServices>();
             services.AddScoped<IEmailSender, EmailSender>();
 
             #endregion
@@ -26,6 +27,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
+            services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<IFaqRepository, FaqRepository>();
 
             #endregion

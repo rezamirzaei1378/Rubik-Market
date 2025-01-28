@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Rubik_Market.Domain.Models
 {
@@ -21,9 +16,10 @@ namespace Rubik_Market.Domain.Models
 
         #region Relations
 
-         public List<UserProfileInfo> UserProfileInfo { get; set; }
+         public List<UserProfileInfo>? UserProfileInfo { get; set; }
+         public List<Address>? Addresses { get; set; }
 
         #endregion
-       
+
     }
 }
