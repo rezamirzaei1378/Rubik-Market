@@ -4,7 +4,7 @@ namespace Rubik_Market.Domain.Repo.Contracts;
 
 public interface IUserAddressRepository
 {
-    Task<List<Address?>> GetUserAddressesAsync(int id);
+    Task<List<Address?>> GetUserAddressesAsync(int userId);
     Task<List<Address?>> GetAllUserAddressesAsync();
     Task AddUserAddressAsync(Address address);
     Task<Address?> GetUserAddressForEditAsync(int id);

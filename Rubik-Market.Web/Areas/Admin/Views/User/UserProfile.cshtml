@@ -53,9 +53,13 @@
                     </div><!-- /.card-body -->
                 </div>
                 <!-- /.nav-tabs-custom -->
+                @await Component.InvokeAsync("UserAddresses", new { userId = Model.UserId })
             </div>
             <!-- /.col -->
+            
         </div>
+        
+        
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>

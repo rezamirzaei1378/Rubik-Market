@@ -1,4 +1,5 @@
-﻿using Rubik_Market.Application.Services.Contracts;
+﻿using Rubik_Market.Application.Extenstions;
+using Rubik_Market.Application.Services.Contracts;
 using Rubik_Market.Domain.Models;
 using Rubik_Market.Domain.Repo.Contracts;
 using Rubik_Market.Domain.ViewModels.Address;
@@ -51,9 +52,30 @@ public class UserAddressServices : IUserAddressServices
         }
     }
 
-    public async Task<AdminSideAddressViewModel> GetAllUserAddressesAsync()
+    public async Task<List<AdminSideAddressViewModel?>> GetUserAddressesAdminSideAsync(int userId)
     {
-        throw new NotImplementedException();
+        var userAddresses = await _userAddressRepository.GetUserAddressesAsync(userId);
+
+        if (userAddresses.Count != 0)
+        {
+            List<AdminSideAddressViewModel?> model = userAddresses.Select(a => new AdminSideAddressViewModel
+            {
+                Provnice = a.Provnice,
+                City = a.City,
+                Area = a.Area,
+                UserAddress = a.UserAddress,
+                PostalCode = a.PostalCode,
+                ConsigneeName = a.ConsigneeName,
+                ConsigneePhoneNumber = a.ConsigneePhoneNumber,
+                CreatedDate = a.CreateDate.ToShamsi()
+            }).ToList();
+            return model;
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     public async Task<AddAddressResult> AddAddressAsync(AddAddressViewModel model)

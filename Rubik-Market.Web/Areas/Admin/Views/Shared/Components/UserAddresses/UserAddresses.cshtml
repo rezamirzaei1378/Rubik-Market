@@ -1,0 +1,34 @@
+﻿@model List<Rubik_Market.Domain.ViewModels.Address.AdminSideAddressViewModel?>
+
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            آدرس های کاربر
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @if (Model == null)
+            {
+                <p>موردی یافت نشد </p>
+
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="callout callout-info">
+                        <h5>@item.City ، @item.Area</h5>
+                        <p>@item.Provnice </p>
+                        <p>@item.UserAddress </p>
+                        <p>@item.ConsigneeName </p>
+                        <p>@item.ConsigneePhoneNumber </p>
+                        <p>@item.PostalCode </p>
+                        <span>@item.CreatedDate</span>
+                    </div>
+                }
+            }
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
