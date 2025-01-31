@@ -21,6 +21,7 @@ namespace Rubik_Market.Infra.IOC.Context
         public DbSet<AboutUsDescription> AboutUsDescription { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
         
         #region OnModelCreating
 

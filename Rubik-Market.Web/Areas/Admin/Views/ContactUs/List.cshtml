@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.IdentityModel.Tokens
+@model List<Rubik_Market.Domain.ViewModels.ContactUs.ContactUsListViewModel?>
+
+@{
+    ViewData["Title"] = "لیست تماس با ما";
+    int count = 0;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        @if (!Model.IsNullOrEmpty())
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>نام و نام خانوادگی</th>
+                                        <th>ایمیل</th>
+                                        <th>عنوان</th>
+                                        <th>وضعیت پاسخ</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td><div class="status-box">@count</div></td>
+                                            <td><div class="status-box">@item.FullName</div></td>
+                                            <td><div class="status-box truncate">@item.Email</div></td>
+                                            <td><div class="status-box truncate" title="@item.Title">@item.Title</div></td>
+                                            <td>
+                                                <div class="status-box">
+                                                    <span class="@((item.Answer != null) ? " badge bg-success" : "badge bg-danger")">
+                                                        @((item.Answer != null) ? "فعال" : "غیر فعال")
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning" asp-area="Admin" asp-controller="ContactUs" asp-action="AnswerContactUs" asp-route-id="@item.Id">پاسخ دهید</a>
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p> کابری موجود نیست</p>
+                        }
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
