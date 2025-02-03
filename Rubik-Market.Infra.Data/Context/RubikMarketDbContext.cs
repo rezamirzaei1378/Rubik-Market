@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Rubik_Market.Domain.Models;
+using Rubik_Market.Domain.Models.Blog;
 
 namespace Rubik_Market.Infra.IOC.Context
 {
@@ -22,6 +18,13 @@ namespace Rubik_Market.Infra.IOC.Context
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ContactUs> ContactUs { get; set; }
+        public DbSet<BlogPosts> BlogPosts { get; set; }
+        public DbSet<BlogTag> BlogTagLists { get; set; }
+        public DbSet<BlogPostTags> BlogPostTags { get; set; }
+        public DbSet<BlogPostView> BolgPostViews { get; set; }
+        public DbSet<BlogPostComment> BlogPostComments { get; set; }
+        public DbSet<BlogGroup> BlogGroups { get; set; }
+        public DbSet<BlogPostGroup> BlogPostGroups { get; set; }
         
         #region OnModelCreating
 

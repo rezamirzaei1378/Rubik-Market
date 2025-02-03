@@ -1,0 +1,118 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Versioning;
+using Rubik_Market.Application.Services.Contracts.Blog;
+using Rubik_Market.Domain.ViewModels.Blog.BlogGroups;
+
+namespace Rubik_Market.Web.Areas.Admin.Controllers
+{
+    public class BlogController : AdminBaseController
+    {
+        #region Constructor
+
+        private readonly IBlogGroupServices _blogGroupServices;
+
+        public BlogController(IBlogGroupServices blogGroupServices)
+        {
+            _blogGroupServices = blogGroupServices;
+        }
+
+        #endregion
+
+        #region Groups
+
+        #region GroupList
+
+        [HttpGet("BlogGroups")]
+        public async Task<IActionResult> BlogGroupList()
+        {
+            var model = await _blogGroupServices.GetBlogGroupsAsync();
+            return View(model);
+        }
+
+        #endregion
+
+        #region AddGroup
+
+        [HttpGet("Create-BlogGroups")]
+        public IActionResult AddBlogGroup()
+        {
+            return View();
+        }
+
+        [HttpPost("Create-BlogGroups")]
+        public async Task<IActionResult> AddBlogGroup(AddBlogGroupViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+            var result = await _blogGroupServices.AddBlogGroupAsync(model);
+            switch (result)
+            {
+                case AddBlogGroupResult.Success:
+                    TempData[SuccessMessage] = "گروه با موفقبت اضافه شد";
+                    return RedirectToAction(nameof(BlogGroupList));
+                case AddBlogGroupResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    break;
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        #region EditGroup
+
+        [HttpGet("Edit-BlogGroups")]
+        public async Task<IActionResult> EditBlogGroup(int id)
+        {
+            var item = await _blogGroupServices.GetBlogGroupByIdAsync(id);
+            if (item == null)
+            {
+                TempData[ErrorMessage] = "گروه یافت نشد";
+                return RedirectToAction(nameof(BlogGroupList));
+            }
+            return View(item);
+        }
+
+        [HttpPost("Edit-BlogGroups")]
+        public async Task<IActionResult> EditBlogGroup(EditBlogGroupViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+
+            var result = await _blogGroupServices.EditBlogGroupAsync(model);
+
+            switch (result)
+            {
+                case EditBlogGroupResult.Success:
+                    TempData[SuccessMessage] = "گروه با موفقبت ویرایش شد";
+                    return RedirectToAction(nameof(BlogGroupList));
+                    break;
+                case EditBlogGroupResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    break;
+                case EditBlogGroupResult.GroupNotFound:
+                    TempData[ErrorMessage] = "گروه یافت نشد";
+                    break;
+            }
+
+            return View(model);
+
+        }
+
+        #endregion
+
+        #endregion
+    }
+}

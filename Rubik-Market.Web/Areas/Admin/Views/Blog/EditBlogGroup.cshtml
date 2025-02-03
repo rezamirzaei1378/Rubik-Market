@@ -1,0 +1,28 @@
+﻿@model Rubik_Market.Domain.ViewModels.Blog.BlogGroups.EditBlogGroupViewModel?
+@{
+    ViewData["Title"] = "ویرایش گروه ";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="Blog" asp-action="EditBlogGroup" method="post">
+                            <div class="form-group">
+                                <input type="hidden" asp-for="GroupId"/>
+                                <label asp-for="GroupName"></label>
+                                <input type="text" class="form-control" asp-for="GroupName">
+                                <span asp-validation-for="GroupName"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="ویرایش گروه" class="btn btn-warning" />
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>

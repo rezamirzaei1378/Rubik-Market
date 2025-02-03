@@ -28,4 +28,9 @@
     <ProjectReference Include="..\Rubik-Market.Infra.IOC\Rubik-Market.Infra.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Blog\Controllers\" />
+    <Folder Include="Areas\Blog\Views\Shared\Components\" />
+  </ItemGroup>
+
 </Project>

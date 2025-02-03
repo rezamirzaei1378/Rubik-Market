@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Rubik_Market.Application.Services.Contracts;
+using Rubik_Market.Application.Services.Contracts.Blog;
 using Rubik_Market.Application.Services.Implementation;
+using Rubik_Market.Application.Services.Implementation.Blog;
 using Rubik_Market.Domain.Repo.Contracts;
 using Rubik_Market.Infra.Data.Repo.Implementation;
 
@@ -18,6 +20,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IFaqServices, FaqServices>();
             services.AddScoped<IUserAddressServices, UserAddressServices>();
             services.AddScoped<IContactUsServices, ContactUsServices>();
+            services.AddScoped<IBlogGroupServices, BlogGroupServices>();
             services.AddScoped<IEmailSender, EmailSender>();
 
             #endregion
@@ -31,6 +34,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IContactUsRepository, ContactUsRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
 
             #endregion
         }

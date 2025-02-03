@@ -27,11 +27,6 @@ public class ContactUsServices : IContactUsServices
 
     public async Task<CreateContactUsResult> CreateContactUsAsync(CreateContactUsViewModel model)
     {
-        if (model == null)
-        {
-            return CreateContactUsResult.Error;
-        }
-
         try
         {
             ContactUs contactUs = new ContactUs
