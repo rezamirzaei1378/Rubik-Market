@@ -21,6 +21,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IUserAddressServices, UserAddressServices>();
             services.AddScoped<IContactUsServices, ContactUsServices>();
             services.AddScoped<IBlogGroupServices, BlogGroupServices>();
+            services.AddScoped<IBlogTagServices, BlogTagServices>();
             services.AddScoped<IEmailSender, EmailSender>();
 
             #endregion

@@ -30,29 +30,29 @@ public class BlogRepository : IBlogRepository
     #region Tags
     public async Task<List<BlogTag>?> GetBlogTagListAsync()
     {
-        throw new NotImplementedException();
+        return await _context.BlogTagLists.OrderByDescending(t=>t.CreateDate).ToListAsync();
     }
 
     public async Task CreateBlogTagAsync(BlogTag model)
     {
-        throw new NotImplementedException();
+        await _context.BlogTagLists.AddAsync(model);
     }
 
-    public async Task<BlogTag> GetBlogTagByIdAsync(int groupId)
+    public async Task<BlogTag?> GetBlogTagByIdAsync(int tagId)
     {
-        throw new NotImplementedException();
+        return await _context.BlogTagLists.FirstOrDefaultAsync(t => t.ID == tagId);
     }
 
     public void EditBlogTagAsync(BlogTag model)
     {
-        throw new NotImplementedException();
+        _context.BlogTagLists.Update(model);
     }
     #endregion
 
     #region Groups
     public async Task<List<BlogGroup>?> GetBlogGroupListAsync()
     {
-        return await _context.BlogGroups.ToListAsync();
+        return await _context.BlogGroups.OrderByDescending(g => g.CreateDate).ToListAsync();
     }
 
     public async Task CreateBlogGroupAsync(BlogGroup model)

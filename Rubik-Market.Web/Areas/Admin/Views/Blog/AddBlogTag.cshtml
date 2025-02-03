@@ -1,0 +1,27 @@
+﻿@model Rubik_Market.Domain.ViewModels.Blog.BlogTags.AddBlogTagViewModel
+@{
+    ViewData["Title"] = "اضافه کردن کلمه کلیدی";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="Blog" asp-action="AddBlogTag" method="post">
+                            <div class="form-group">
+                                <label asp-for="TagName"></label>
+                                <input type="text" class="form-control" asp-for="TagName">
+                                <span asp-validation-for="TagName"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="اضافه کردن کلمه کلیدی" class="btn btn-success" />
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>

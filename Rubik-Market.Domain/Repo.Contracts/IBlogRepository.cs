@@ -14,7 +14,7 @@ namespace Rubik_Market.Domain.Repo.Contracts
 
         Task<List<BlogTag>?> GetBlogTagListAsync();
         Task CreateBlogTagAsync(BlogTag model);
-        Task<BlogTag> GetBlogTagByIdAsync(int groupId);
+        Task<BlogTag?> GetBlogTagByIdAsync(int tagId);
         public void EditBlogTagAsync(BlogTag model);
 
         #endregion

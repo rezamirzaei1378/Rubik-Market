@@ -9,7 +9,7 @@ public class BlogTag : BaseEntity
 
     #region Relation
 
-    public ICollection<BlogPostTags>? Tags { get; set; }
+    public ICollection<BlogPostTags>? PostTags { get; set; }
 
     #endregion
 }

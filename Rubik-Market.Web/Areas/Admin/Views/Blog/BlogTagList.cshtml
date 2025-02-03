@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.IdentityModel.Tokens
-@model List<Rubik_Market.Domain.ViewModels.Blog.BlogGroups.BlogGroupViewModel>?
+@model List<Rubik_Market.Domain.ViewModels.Blog.BlogTags.BlogTagsViewModel>?
 @{
-    ViewData["Title"] = "لیست گروه های بلاگ";
+    ViewData["Title"] = "لیست کلمات کلیدی بلاگ";
     int count = 0;
 }
 <section class="content">
@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <a asp-area="Admin" asp-controller="Blog" asp-action="AddBlogGroup" class="btn btn-success">ساخت گروه جدید</a>
+                            <a asp-area="Admin" asp-controller="Blog" asp-action="AddBlogTag" class="btn btn-success">ساخت کلمه کلیدی جدید</a>
                         </div>
 
                     </div>
@@ -24,7 +24,7 @@
                                 <tbody>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>نام گروه</th>
+                                        <th>نام کلمه کلیدی</th>
                                         <th>عملیات</th>
                                     </tr>
                                     @foreach (var item in Model!)
@@ -32,9 +32,9 @@
                                         count++;
                                         <tr>
                                             <td><div class="status-box">@count</div></td>
-                                            <td><div class="status-box">@item.GroupName</div></td>
+                                            <td><div class="status-box">@item.TagName</div></td>
                                             <td>
-                                                <a class="btn btn-warning" asp-area="Admin" asp-controller="Blog" asp-action="EditBlogGroup" asp-route-id="@item.GroupId">ویرایش</a>
+                                                <a class="btn btn-warning" asp-area="Admin" asp-controller="Blog" asp-action="EditBlogTag" asp-route-tagId="@item.TagId">ویرایش</a>
                                                 @* <button class="btn btn-danger" onclick="deleteUser(`@item.FullName`,@item.ID)">حذف</button> *@
                                             </td>
                                         </tr>
@@ -46,7 +46,7 @@
                         }
                         else
                         {
-                            <p> گروهی موجود نیست</p>
+                            <p> کلمه کلیدی موجود نیست</p>
                         }
 
                     </div>
