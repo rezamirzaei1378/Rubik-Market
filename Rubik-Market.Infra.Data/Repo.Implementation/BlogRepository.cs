@@ -22,7 +22,31 @@ public class BlogRepository : IBlogRepository
     #region Post
     public async Task<List<BlogPosts>?> GetPostsAsync()
     {
-        throw new NotImplementedException();
+        return await _context.BlogPosts
+            .Include(p=>p.BlogPostGroup)
+            .ThenInclude(g=>g.BlogGroup)
+            .OrderByDescending(p=>p.CreateDate).ToListAsync();
+    }
+
+    public async Task AddBlogPost(BlogPosts blogPost)
+    {
+        await _context.BlogPosts.AddAsync(blogPost);
+    }
+
+    public async Task<BlogPosts> GetBlogPostByIdAsync(int id)
+    {
+       return await _context.BlogPosts.Include(p => p.BlogPostGroup)
+            .ThenInclude(g => g.BlogGroup)
+            .Include(p => p.BlogPostTags)
+            .ThenInclude(t => t.BlogTag)
+            .FirstOrDefaultAsync(p => p.ID == id);
+    }
+
+    public async Task<List<int>> GetBlogPostTagsByIdAsync(int postId)
+    {
+        return await _context.BlogPostTags
+            .Include(t => t.BlogTag)
+            .Where(t => t.PostId == postId).Select(t => t.TagId).ToListAsync();
     }
 
     #endregion

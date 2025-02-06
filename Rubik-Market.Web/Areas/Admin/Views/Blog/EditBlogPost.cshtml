@@ -1,0 +1,76 @@
+﻿@model Rubik_Market.Domain.ViewModels.Blog.BlogPost.EditBlogPostViewModel
+@{
+    ViewData["Title"] = "ویرایش پست ";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="Blog" asp-action="EditBlogPost" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Title"></label>
+                                <input type="text" class="form-control" asp-for="Title">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ShortDiscription"></label>
+                                <input type="text" class="form-control" asp-for="ShortDiscription">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Discription"></label>
+                                <textarea class="form-control" asp-for="Discription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Image"></label>
+                                <input type="file" class="form-control" asp-for="Image">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BlogGroups"></label>
+                                <select asp-for="PostGroupId" class="form-control">
+                                    <option>انتخاب کنید</option>
+                                    @foreach (var group in Model.BlogGroups)
+                                    {
+                                        <option value="@group.ID">@group.GroupName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>جستجوی کلمات کلیدی:</label>
+                                <input type="text" id="searchTag" class="form-control" placeholder="جستجو..." />
+                                <div id="tagList">
+                                    @foreach (var tag in Model.BlogTags)
+                                    {
+                                        <div>
+                                            <input type="checkbox" name="PostTags" value="@tag.ID" id="tag-@tag.ID" />
+                                            <label for="tag-@tag.ID">@tag.TagName</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="ویرایش پست" class="btn btn-warning" />
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+@section Scripts
+{
+    <script>
+        document.getElementById("searchTag").addEventListener("input", function () {
+            let searchTerm = this.value.toLowerCase();
+            let tags = document.querySelectorAll("#tagList div");
+
+            tags.forEach(tag => {
+                let text = tag.textContent.toLowerCase();
+                tag.style.display = text.includes(searchTerm) ? "" : "none";
+            });
+        });
+    </script>
+}

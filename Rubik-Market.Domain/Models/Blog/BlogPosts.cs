@@ -13,9 +13,10 @@ public class BlogPosts : BaseEntity
 
     #region Relation
 
-    public ICollection<BlogPostTags>? Tags { get; set; }
+    public ICollection<BlogPostTags>? BlogPostTags { get; set; }
     public ICollection<BlogPostComment>? Comments { get; set; }
     public ICollection<BlogPostView>? Views { get; set; }
+    public BlogPostGroup? BlogPostGroup { get; set; }
 
     #endregion
 

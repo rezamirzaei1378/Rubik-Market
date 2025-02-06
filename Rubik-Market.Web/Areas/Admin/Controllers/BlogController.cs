@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rubik_Market.Application.Services.Contracts.Blog;
 using Rubik_Market.Domain.ViewModels.Blog.BlogGroups;
+using Rubik_Market.Domain.ViewModels.Blog.BlogPost;
 using Rubik_Market.Domain.ViewModels.Blog.BlogTags;
 
 namespace Rubik_Market.Web.Areas.Admin.Controllers
@@ -11,11 +12,13 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
         private readonly IBlogGroupServices _blogGroupServices;
         private readonly IBlogTagServices _blogTagServices;
+        private readonly IBlogPostServices _blogPostServices;
 
-        public BlogController(IBlogGroupServices blogGroupServices, IBlogTagServices blogTagServices)
+        public BlogController(IBlogGroupServices blogGroupServices,IBlogTagServices blogTagServices, IBlogPostServices blogPostServices)
         {
             _blogGroupServices = blogGroupServices;
             _blogTagServices = blogTagServices;
+            _blogPostServices = blogPostServices;
         }
 
         #endregion
@@ -206,6 +209,99 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
                     TempData[ErrorMessage] = "کلمه کلیدی یافت نشد";
                     break;
                 case EditBlogTagResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    break;
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Posts
+
+        #region List
+
+        public async Task<IActionResult> PostsList()
+        {
+            var model = await _blogPostServices.GetPostsAsync();
+            return View(model);
+        }
+
+        #endregion
+
+        #region Create
+
+        [HttpGet("Create-BlogPost")]
+        public async Task<IActionResult> CreateBlogPost()
+        {
+            var model = await _blogPostServices.GetBlogPostTagsAndGroupsAsync();
+            return View(model);
+        }
+
+        [HttpPost("Create-BlogPost")]
+        public async Task<IActionResult> CreateBlogPost(CreateBlogPostViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+
+            var result = await _blogPostServices.CreateBlogPost(model);
+            switch (result)
+            {
+                case CreateBlogPostResult.Success:
+                    TempData[SuccessMessage] = "پست با موفقبت اضافه شد";
+                    return RedirectToAction(nameof(PostsList));
+                case CreateBlogPostResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    break;
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Edit
+
+        [HttpGet("Edit-BlogPost")]
+        public async Task<IActionResult> EditBlogPost(int postId)
+        {
+            var post = await _blogPostServices.GetBlogForEditAsync(postId);
+            if (post == null)
+            {
+                TempData[ErrorMessage] = "پستی یافت نشد";
+                return RedirectToAction(nameof(BlogTagList));
+            }
+            return View(post);
+        }
+
+        [HttpPost("Edit-BlogPost")]
+        public async Task<IActionResult> EditBlogPost(CreateBlogPostViewModel model)
+        {
+            #region Validation
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            #endregion
+
+            var result = await _blogPostServices.CreateBlogPost(model);
+            switch (result)
+            {
+                case CreateBlogPostResult.Success:
+                    TempData[SuccessMessage] = "پست با موفقبت اضافه شد";
+                    return RedirectToAction(nameof(PostsList));
+                case CreateBlogPostResult.Error:
                     TempData[ErrorMessage] = "خطایی رخ داده است";
                     break;
             }

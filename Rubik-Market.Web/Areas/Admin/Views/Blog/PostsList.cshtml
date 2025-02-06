@@ -1,0 +1,72 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model List<Rubik_Market.Domain.ViewModels.Blog.BlogPost.BlogPostViewModel>?
+@{
+    ViewData["Title"] = "لیست پست های بلاگ";
+    int count = 0;
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <a asp-area="Admin" asp-controller="Blog" asp-action="CreateBlogPost" class="btn btn-success">ساخت پست جدید</a>
+                        </div>
+
+                        @* <div class="card-tools"> *@
+                        @*     <ul class="pagination pagination-sm m-0 float-right"> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">«</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۱</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۲</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">۳</a></li> *@
+                        @*         <li class="page-item"><a class="page-link" href="#">»</a></li> *@
+                        @*     </ul> *@
+                        @* </div> *@
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        @if (!Model.IsNullOrEmpty())
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>عنوان پست</th>
+                                        <th class="truncate">توضیح مختصر</th>
+                                        <th>دسته بندی</th>
+                                        <th>تاریخ ساخت</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td><div class="status-box">@count</div></td>
+                                            <td><div class="status-box">@item.Title</div></td>
+                                            <td><div class="status-box">@item.ShortDiscription</div></td>
+                                            <td><div class="status-box">@item.PostGroup</div></td>
+                                            <td><div class="status-box">@item.CreateDate</div></td>
+
+                                            <td>
+                                                <a class="btn btn-warning" asp-area="Admin" asp-controller="Blog" asp-action="EditBlogPost" asp-route-postId="@item.PostId">ویرایش</a>
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p> پستی موجود نیست</p>
+                        }
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>

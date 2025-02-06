@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Rubik_Market.Domain.Models.Blog;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rubik_Market.Domain.ViewModels.Blog.BlogPost;
 
@@ -17,7 +18,7 @@ public class EditBlogPostViewModel
     [Display(Name = "توضیح مقاله")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public string Discription { get; set; }
-    public string ImageName { get; set; }
+    public string? ImageName { get; set; }
 
     [Display(Name = "عکس اصلی مقاله")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -25,11 +26,17 @@ public class EditBlogPostViewModel
 
     [Display(Name = "دسته بندی")]
     [Required(ErrorMessage = "لطفا {0} را انتخاب کنید")]
-    public string PostGroup { get; set; }
+    public int PostGroupId { get; set; }
+
+    [Display(Name = "دسته بندی")]
+    public List<BlogGroup>? BlogGroups { get; set; } = new List<BlogGroup>();
 
     [Display(Name = "کلمات کلیدی")]
     [Required(ErrorMessage = "لطفا {0} را انتخاب کنید")]
-    public List<string>? PostTags { get; set; }
+    public List<int>? PostTags { get; set; }
+
+    [Display(Name = "کلمات کلیدی")]
+    public List<BlogTag>? BlogTags { get; set; } = new List<BlogTag>();
 
 }
 

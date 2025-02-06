@@ -7,6 +7,9 @@ namespace Rubik_Market.Domain.Repo.Contracts
         #region Post
 
         Task<List<BlogPosts>?> GetPostsAsync();
+        Task AddBlogPost(BlogPosts blogPost);
+        Task<BlogPosts> GetBlogPostByIdAsync(int id);
+        Task<List<int>> GetBlogPostTagsByIdAsync(int postId);
 
         #endregion
 
