@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Blog\Controllers\" />
     <Folder Include="Areas\Blog\Views\Shared\Components\" />
     <Folder Include="wwwroot\assets\dynamicImg\BlogPost\thumb\" />
   </ItemGroup>

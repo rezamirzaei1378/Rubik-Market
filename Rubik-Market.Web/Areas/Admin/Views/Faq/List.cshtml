@@ -68,7 +68,7 @@
 {
     <script>
         function deleteFaq(id,a){
-            if (confirm(`از حذف کاربر این سوال مطمعن هستی؟`)) {
+            if (confirm(`از حذف این سوال مطمعن هستی؟`)) {
 
                 fetch(`/Admin/Faq/DeleteFaq/${id}`, { method: 'GET' })
                     .then(() => {

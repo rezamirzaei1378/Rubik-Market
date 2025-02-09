@@ -10,6 +10,7 @@
                     <div class="card-body">
                         <form asp-area="Admin" asp-controller="Blog" asp-action="EditBlogPost" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" class="form-control" asp-for="PostId">
                             <div class="form-group">
                                 <label asp-for="Title"></label>
                                 <input type="text" class="form-control" asp-for="Title">
@@ -43,7 +44,8 @@
                                     @foreach (var tag in Model.BlogTags)
                                     {
                                         <div>
-                                            <input type="checkbox" name="PostTags" value="@tag.ID" id="tag-@tag.ID" />
+                                            <input type="checkbox" name="PostTags" value="@tag.ID" id="tag-@tag.ID" 
+                                                 @(Model.PostTags.Contains(tag.ID) ? "checked": "" )  />
                                             <label for="tag-@tag.ID">@tag.TagName</label>
                                         </div>
                                     }

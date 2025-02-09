@@ -284,7 +284,7 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
         }
 
         [HttpPost("Edit-BlogPost")]
-        public async Task<IActionResult> EditBlogPost(CreateBlogPostViewModel model)
+        public async Task<IActionResult> EditBlogPost(EditBlogPostViewModel model)
         {
             #region Validation
 
@@ -295,18 +295,46 @@ namespace Rubik_Market.Web.Areas.Admin.Controllers
 
             #endregion
 
-            var result = await _blogPostServices.CreateBlogPost(model);
+            var result = await _blogPostServices.EditBlogPostAsync(model);
             switch (result)
             {
-                case CreateBlogPostResult.Success:
-                    TempData[SuccessMessage] = "پست با موفقبت اضافه شد";
+                case EditBlogPostResult.Success:
+                    TempData[SuccessMessage] = "پست با موفقبت ویرایش شد";
                     return RedirectToAction(nameof(PostsList));
-                case CreateBlogPostResult.Error:
+                case EditBlogPostResult.Error:
+                    TempData[ErrorMessage] = "خطایی رخ داده است";
+                    break;
+                case EditBlogPostResult.PostNotFound:
+                    TempData[ErrorMessage] = "پست پیدا نشد";
+                    return RedirectToAction(nameof(PostsList));
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Delete
+
+        [HttpGet("Delete-BlogPost")]
+        public async Task<IActionResult> DeleteBlogPost(int postId)
+        {
+            var result = await _blogPostServices.DeleteBlogPostAsync(postId);
+
+            switch (result)
+            {
+                case DeleteBLogPostResult.Success:
+                    TempData[SuccessMessage] = "پست با موفقبت حدف شد";
+                    break;
+                case DeleteBLogPostResult.PostNotFound:
+                    TempData[ErrorMessage] = "پست پیدا نشد";
+                    break;
+                case DeleteBLogPostResult.Error:
                     TempData[ErrorMessage] = "خطایی رخ داده است";
                     break;
             }
 
-            return View(model);
+            return RedirectToAction(nameof(PostsList));
         }
 
         #endregion

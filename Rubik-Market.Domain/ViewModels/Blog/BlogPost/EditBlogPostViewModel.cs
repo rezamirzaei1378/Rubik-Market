@@ -1,5 +1,6 @@
 ﻿using Rubik_Market.Domain.Models.Blog;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Rubik_Market.Domain.ViewModels.Blog.BlogPost;
 
@@ -21,8 +22,7 @@ public class EditBlogPostViewModel
     public string? ImageName { get; set; }
 
     [Display(Name = "عکس اصلی مقاله")]
-    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    public string Image { get; set; }
+    public IFormFile? Image { get; set; }
 
     [Display(Name = "دسته بندی")]
     [Required(ErrorMessage = "لطفا {0} را انتخاب کنید")]
@@ -33,7 +33,7 @@ public class EditBlogPostViewModel
 
     [Display(Name = "کلمات کلیدی")]
     [Required(ErrorMessage = "لطفا {0} را انتخاب کنید")]
-    public List<int>? PostTags { get; set; }
+    public List<int> PostTags { get; set; }
 
     [Display(Name = "کلمات کلیدی")]
     public List<BlogTag>? BlogTags { get; set; } = new List<BlogTag>();
@@ -41,6 +41,13 @@ public class EditBlogPostViewModel
 }
 
 public enum EditBlogPostResult
+{
+    Success,
+    PostNotFound,
+    Error
+}
+
+public enum DeleteBLogPostResult
 {
     Success,
     PostNotFound,

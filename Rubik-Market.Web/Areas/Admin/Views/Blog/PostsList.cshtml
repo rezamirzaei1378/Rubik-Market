@@ -33,7 +33,7 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>عنوان پست</th>
-                                        <th class="truncate">توضیح مختصر</th>
+                                        <th>توضیح مختصر</th>
                                         <th>دسته بندی</th>
                                         <th>تاریخ ساخت</th>
                                         <th>عملیات</th>
@@ -43,13 +43,14 @@
                                         count++;
                                         <tr>
                                             <td><div class="status-box">@count</div></td>
-                                            <td><div class="status-box">@item.Title</div></td>
-                                            <td><div class="status-box">@item.ShortDiscription</div></td>
+                                            <td><div class="status-box truncate" title="@item.Title">@item.Title</div></td>
+                                            <td><div class="status-box truncate" title="@item.ShortDiscription">@item.ShortDiscription</div></td>
                                             <td><div class="status-box">@item.PostGroup</div></td>
                                             <td><div class="status-box">@item.CreateDate</div></td>
 
                                             <td>
                                                 <a class="btn btn-warning" asp-area="Admin" asp-controller="Blog" asp-action="EditBlogPost" asp-route-postId="@item.PostId">ویرایش</a>
+                                                <a class="btn btn-danger" onclick="deletePost(@item.PostId, this)">حذف</a>
                                             </td>
                                         </tr>
                                     }
@@ -70,3 +71,24 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
+
+@section Scripts
+{
+    <script>
+        function deletePost(id,a){
+            if (confirm(`از حذف پست مطمعن هستی؟`)) {
+
+                fetch(`/Admin/Blog/DeleteBlogPost/${id}`, { method: 'GET' })
+                    .then(() => {
+                        const row = a.closest('tr');
+                        row.classList.add('fade-out');
+                        setTimeout(() => {
+                            row.remove();
+                        }, 500);
+                    });
+            }
+
+        }
+
+    </script>
+}

@@ -19,12 +19,15 @@ public class BlogRepository : IBlogRepository
     #endregion
 
 
+    #region AdminSide
+
     #region Post
     public async Task<List<BlogPosts>?> GetPostsAsync()
     {
         return await _context.BlogPosts
             .Include(p=>p.BlogPostGroup)
             .ThenInclude(g=>g.BlogGroup)
+            .Where(p=>p.isDelete == false)
             .OrderByDescending(p=>p.CreateDate).ToListAsync();
     }
 
@@ -35,10 +38,11 @@ public class BlogRepository : IBlogRepository
 
     public async Task<BlogPosts> GetBlogPostByIdAsync(int id)
     {
-       return await _context.BlogPosts.Include(p => p.BlogPostGroup)
+        return await _context.BlogPosts.Include(p => p.BlogPostGroup)
             .ThenInclude(g => g.BlogGroup)
             .Include(p => p.BlogPostTags)
             .ThenInclude(t => t.BlogTag)
+            .Where(p => p.isDelete == false)
             .FirstOrDefaultAsync(p => p.ID == id);
     }
 
@@ -46,7 +50,46 @@ public class BlogRepository : IBlogRepository
     {
         return await _context.BlogPostTags
             .Include(t => t.BlogTag)
-            .Where(t => t.PostId == postId).Select(t => t.TagId).ToListAsync();
+            .Where(t => t.PostId == postId && t.isDelete == false).Select(t => t.TagId).ToListAsync();
+    }
+
+    public void UpdateBlogPost(BlogPosts blogPost)
+    {
+        _context.BlogPosts.Update(blogPost);
+    }
+
+    public async Task<List<BlogPostTags>> GetTagsListToRemove(int postId, List<int>? postTagListToRemove)
+    {
+        return await _context.BlogPostTags
+            .Where(t => t.PostId == postId && postTagListToRemove.Contains(t.TagId)).ToListAsync();
+    }
+
+    public async Task<List<BlogPostTags>> GetTagsListToNotRemove(int postId, List<int>? postTagListToRemove)
+    {
+        return await _context.BlogPostTags
+            .Where(t => t.PostId == postId && !postTagListToRemove.Contains(t.TagId)).ToListAsync();
+    }
+
+    public void BlogPostTagToRemove(List<BlogPostTags> blogTags)
+    { 
+        _context.BlogPostTags.RemoveRange(blogTags);
+    }
+
+    public void DeletePostTag(BlogPosts blogPosts, List<BlogPostTags> blogPostTags, BlogPostGroup postGroup)
+    {
+        _context.BlogPosts.Update(blogPosts);
+        _context.BlogPostTags.UpdateRange(blogPostTags);
+        _context.BlogPostGroups.Update(postGroup);
+    }
+
+    public async Task<List<BlogPostTags>?> GetBlogPostTagsListAsync(int postId)
+    {
+        return await _context.BlogPostTags.Where(t => t.PostId == postId && t.isDelete == false).ToListAsync();
+    }
+
+    public async Task<BlogPostGroup?> GetBlogPostGroupAsync(int postId)
+    {
+        return await _context.BlogPostGroups.FirstOrDefaultAsync(g => g.PostId == postId && g.isDelete == false);
     }
 
     #endregion
@@ -100,5 +143,13 @@ public class BlogRepository : IBlogRepository
     {
         await _context.SaveChangesAsync();
     }
+    #endregion
+
+    #endregion
+
+    #region UserSide
+
+    
+
     #endregion
 }
