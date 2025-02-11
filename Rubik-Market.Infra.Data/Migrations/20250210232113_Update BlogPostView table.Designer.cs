@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rubik_Market.Infra.IOC.Context;
 
@@ -11,9 +12,11 @@ using Rubik_Market.Infra.IOC.Context;
 namespace Rubik_Market.Infra.Data.Migrations
 {
     [DbContext(typeof(RubikMarketDbContext))]
-    partial class RubikMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250210232113_Update BlogPostView table")]
+    partial class UpdateBlogPostViewtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace Rubik_Market.Infra.Data.Migrations
                             ID = 1,
                             AboutUsImageName = "DefaultImg",
                             AboutUsText = "Default",
-                            CreateDate = new DateTime(2025, 2, 11, 2, 53, 4, 521, DateTimeKind.Local).AddTicks(1382),
+                            CreateDate = new DateTime(2025, 2, 11, 2, 51, 9, 182, DateTimeKind.Local).AddTicks(1224),
                             isDelete = false
                         });
                 });
@@ -291,6 +294,9 @@ namespace Rubik_Market.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ViewDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isDelete")

@@ -143,13 +143,45 @@ public class BlogRepository : IBlogRepository
     {
         await _context.SaveChangesAsync();
     }
-    #endregion
 
     #endregion
 
-    #region UserSide
+    #endregion
 
-    
+    #region BlogPanel
+
+    public async Task<List<BlogPosts>?> GetLastBlogPostsListAsync()
+    {
+        return await _context.BlogPosts.OrderByDescending(p => p.CreateDate)
+            .Where(p=>p.isDelete == false).Take(8)
+            .Include(p=>p.BlogPostGroup)
+            .Include(p => p.BlogPostTags)
+            .ToListAsync();
+    }
+
+    public async Task<BlogPosts?> GetSingleBlogPostAsync(int postId)
+    {
+        return await _context.BlogPosts.Where(p => p.ID == postId)
+            .Include(p => p.BlogPostGroup)
+            .ThenInclude(g=>g.BlogGroup)
+            .Include(p => p.BlogPostTags)
+            .ThenInclude(t=>t.BlogTag)
+            .Include(p=>p.Views)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task AddBlogPostViewAsync(BlogPostView postView)
+    {
+        await _context.BolgPostViews.AddAsync(postView);
+    }
+
+    public async Task<List<BlogPosts>?> GetBlogMostViewedPostAsync()
+    {
+        return await _context.BlogPosts.Where(p=>p.isDelete == false)
+            .Include(p => p.BlogPostGroup)
+            .ThenInclude(g => g.BlogGroup)
+            .OrderByDescending(p => p.Views.Count).Take(4).ToListAsync();
+    }
 
     #endregion
 }

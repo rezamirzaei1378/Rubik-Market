@@ -47,11 +47,13 @@ namespace Rubik_Market.Domain.Repo.Contracts
 
         #endregion
 
+        #region BlogPanel
 
-
-        #region UserSide
-
-
+        Task<List<BlogPosts>?> GetLastBlogPostsListAsync();
+        Task<BlogPosts?> GetSingleBlogPostAsync(int postId);
+        Task AddBlogPostViewAsync(BlogPostView postView);
+        Task<List<BlogPosts>?> GetBlogMostViewedPostAsync();
+        //Task<List<BlogPostTags>?> GetBlogPostsListByPagingAsync();
 
         #endregion
     }

@@ -23,6 +23,7 @@ namespace Rubik_Market.Infra.IOC
             services.AddScoped<IBlogGroupServices, BlogGroupServices>();
             services.AddScoped<IBlogTagServices, BlogTagServices>();
             services.AddScoped<IBlogPostServices, BlogPostServices>();
+            services.AddScoped<IBlogPanelServices, BlogPanelServices>();
             services.AddScoped<IEmailSender, EmailSender>();
 
             #endregion

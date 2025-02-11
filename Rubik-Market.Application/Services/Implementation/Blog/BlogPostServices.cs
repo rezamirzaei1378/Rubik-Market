@@ -60,7 +60,7 @@ public class BlogPostServices : IBlogPostServices
             if (model.Image != null)
             {
                 string imageName = Guid.NewGuid() + Path.GetExtension(model.Image.FileName);
-                model.Image.AddImageToServer(imageName, SiteTools.BlogPostImage, 350, 645,
+                model.Image.AddImageToServer(imageName, SiteTools.BlogPostImage, 645, 350,
                     SiteTools.BlogPostImageThumbPath);
                 post.ImageName = imageName;
             }
